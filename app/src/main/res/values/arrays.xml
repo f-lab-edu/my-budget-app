@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="category_food_array">
+        <item>@integer/category_restaurant</item>
+        <item>@integer/category_cafe</item>
+        <item>@integer/category_delivery</item>
+        <item>@integer/category_ingredients</item>
+    </integer-array>
+
+    <integer-array name="category_culture_array">
+        <item>@integer/category_subscription</item>
+        <item>@integer/category_movie</item>
+        <item>@integer/category_book</item>
+        <item>@integer/category_performance</item>
+    </integer-array>
+
+    <integer-array name="category_life_style_array">
+        <item>@integer/category_transportation</item>
+        <item>@integer/category_communication</item>
+        <item>@integer/category_housing</item>
+        <item>@integer/category_hospital</item>
+        <item>@integer/category_medicine</item>
+        <item>@integer/category_apparel</item>
+        <item>@integer/category_education</item>
+    </integer-array>
+
+    <integer-array name="category_cash_array">
+        <item>@integer/category_transfer</item>
+    </integer-array>
+</resources>
