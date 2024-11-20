@@ -12,6 +12,6 @@ import kr.ksw.mybudget.data.local.entity.SpendingEntity
     version = 1
 )
 @TypeConverters(Converters::class)
-abstract class SpendingDatabase: RoomDatabase() {
+abstract class MyBudgetDatabase: RoomDatabase() {
     abstract val spendingDao: SpendingDao
 }
