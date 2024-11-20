@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Major -->
     <integer name="category_food">1</integer>
     <integer name="category_culture">2</integer>
     <integer name="category_life_style">3</integer>
