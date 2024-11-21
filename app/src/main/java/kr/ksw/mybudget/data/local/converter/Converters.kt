@@ -1,16 +1,16 @@
 package kr.ksw.mybudget.data.local.converter
 
 import androidx.room.TypeConverter
-import java.util.Date
+import java.time.LocalDate
 
 class Converters {
     @TypeConverter
-    fun fromTimestamp(value: Long?): Date? {
-        return value?.let { Date(it) }
+    fun fromTimestamp(value: Int?): LocalDate? {
+        return value?.let {  LocalDate.ofYearDay(LocalDate.now().year, value) }
     }
 
     @TypeConverter
-    fun dateToTimestamp(date: Date?): Long? {
-        return date?.time
+    fun dateToTimestamp(date: LocalDate?): Int? {
+        return date?.dayOfYear
     }
 }
