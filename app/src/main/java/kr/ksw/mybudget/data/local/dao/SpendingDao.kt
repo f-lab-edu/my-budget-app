@@ -17,7 +17,7 @@ interface SpendingDao {
     suspend fun deleteSpendingEntity(spendingEntity: SpendingEntity)
 
     @Query("SELECT * FROM spending_table")
-    suspend fun getAllSpendingEntities(): Flow<List<SpendingEntity>>
+    fun getAllSpendingEntities(): Flow<List<SpendingEntity>>
 
     @Query("SELECT * FROM spending_table WHERE majorCategory = :majorCategory")
     suspend fun getSpendingEntitiesByMajorCategory(
