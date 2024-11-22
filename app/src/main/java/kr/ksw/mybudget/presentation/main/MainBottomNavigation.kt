@@ -82,24 +82,23 @@ fun MainBottomNavigation(
                         ImageVector.vectorResource(it.unSelectedIcon)
                     },
                     contentDescription = stringResource(it.title),
-                    tint = if(currentRoute == it) {
-                        MaterialTheme.colorScheme.primary
-                    } else {
-                        Color.LightGray
-                    }
+                    tint = getTintColor(currentRoute == it)
                 )
                 Text(
                     text = stringResource(it.title),
                     fontSize = 12.sp,
-                    color = if(currentRoute == it) {
-                        MaterialTheme.colorScheme.primary
-                    } else {
-                        Color.LightGray
-                    }
+                    color = getTintColor(currentRoute == it)
                 )
             }
         }
     }
+}
+
+@Composable
+private fun getTintColor(selected: Boolean): Color = if(selected) {
+    MaterialTheme.colorScheme.primary
+} else {
+    Color.LightGray
 }
 
 @Preview
