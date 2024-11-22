@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">MyBudget</string>
+
+    <string name="main_route_name_home">홈</string>
+    <string name="main_route_name_statistics">분석</string>
+    <string name="main_route_name_budget">예산</string>
+    <string name="main_route_name_card">카드</string>
 </resources>
