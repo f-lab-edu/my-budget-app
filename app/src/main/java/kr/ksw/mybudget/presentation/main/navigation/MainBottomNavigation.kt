@@ -1,4 +1,4 @@
-package kr.ksw.mybudget.presentation.main
+package kr.ksw.mybudget.presentation.main.navigation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import kr.ksw.mybudget.presentation.main.route.MainRoute
+import kr.ksw.mybudget.presentation.main.navigation.route.MainRoute
 import kr.ksw.mybudget.ui.theme.MyBudgetTheme
 
 @Composable

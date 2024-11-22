@@ -1,4 +1,4 @@
-package kr.ksw.mybudget.presentation.main.route
+package kr.ksw.mybudget.presentation.main.navigation.route
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
