@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import kr.ksw.mybudget.presentation.main.navigation.MainBottomNavigation
@@ -25,10 +26,12 @@ class MainActivity : ComponentActivity() {
                         MainBottomNavigation(navController)
                     }
                 ) { innerPadding ->
-                    MainNavHost(
-                        modifier = Modifier.padding(innerPadding),
-                        navController = navController
-                    )
+                    Surface {
+                        MainNavHost(
+                            modifier = Modifier.padding(innerPadding),
+                            navController = navController
+                        )
+                    }
                 }
             }
         }
