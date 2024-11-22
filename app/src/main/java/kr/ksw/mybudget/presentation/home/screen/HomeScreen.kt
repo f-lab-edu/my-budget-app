@@ -1,5 +1,7 @@
 package kr.ksw.mybudget.presentation.home.screen
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kr.ksw.mybudget.R
 import kr.ksw.mybudget.ui.theme.MyBudgetTheme
+import kr.ksw.mybudget.ui.theme.turquoise
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -40,6 +44,8 @@ fun HomeScreen() {
             .padding(horizontal = 16.dp),
     ) {
         HomeHeader(now, name)
+        Spacer(modifier = Modifier.height(10.dp))
+        HomeSpendingCard()
     }
 }
 
@@ -53,7 +59,7 @@ private fun HomeHeader(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Column(
-            modifier = Modifier.padding(top = 8.dp)
+            modifier = Modifier.padding(top = 6.dp)
         ) {
             Text(
                 text = now,
@@ -73,10 +79,44 @@ private fun HomeHeader(
         }
         Icon(
             modifier = Modifier
-                .size(36.dp),
+                .size(32.dp)
+                .clickable {
+
+                },
             imageVector = Icons.Default.Add,
             contentDescription = "Add Spending Icon"
         )
+    }
+}
+
+@Composable
+private fun HomeSpendingCard() {
+    ElevatedCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(160.dp),
+    ) {
+        Column (
+            modifier = Modifier
+                .fillMaxSize()
+                .background(turquoise)
+                .padding(
+                    horizontal = 16.dp,
+                    vertical = 20.dp
+                )
+        ) {
+            Text(
+                text = "이번 달 지출",
+                fontSize = 14.sp,
+                color = Color.White
+            )
+            Text(
+                text = "100,000원",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = Color.White
+            )
+        }
     }
 }
 
