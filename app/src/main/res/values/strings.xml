@@ -18,4 +18,12 @@
     <string name="spending_category_cafe">카페</string>
     <string name="spending_category_delivery">배달음식</string>
     <string name="spending_category_ingredients">식료품</string>
+
+    <string name="spending_category_culture">여가</string>
+    <string name="spending_category_subscription">구독</string>
+    <string name="spending_category_movie">영화</string>
+    <string name="spending_category_performance">공연/전시</string>
+    <string name="spending_category_book">책</string>
+
+    
 </resources>
