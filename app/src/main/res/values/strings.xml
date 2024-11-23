@@ -25,5 +25,15 @@
     <string name="spending_category_performance">공연/전시</string>
     <string name="spending_category_book">책</string>
 
+    <string name="spending_category_life">생활</string>
+    <string name="spending_category_transportation">교통</string>
+    <string name="spending_category_communication">통신</string>
+    <string name="spending_category_housing">주거</string>
+    <string name="spending_category_hospital">병원</string>
+    <string name="spending_category_medicine">의약품</string>
+    <string name="spending_category_apparel">의류</string>
+    <string name="spending_category_education">교육</string>
     
+    <string name="spending_category_cash">현금거래</string>
+    <string name="spending_category_transfer">송금</string>
 </resources>
