@@ -13,10 +13,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -40,12 +44,19 @@ fun HomeScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 48.dp)
+            .padding(top = 36.dp)
             .padding(horizontal = 16.dp),
     ) {
         HomeHeader(now, name)
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         HomeSpendingCard()
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = "지출내역",
+            fontSize = 18.sp
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
     }
 }
 
@@ -63,7 +74,7 @@ private fun HomeHeader(
         ) {
             Text(
                 text = now,
-                fontSize = 20.sp,
+                fontSize = 18.sp,
                 color = Color.Gray
             )
             Spacer(modifier = Modifier.height(10.dp))
@@ -95,6 +106,7 @@ private fun HomeSpendingCard() {
         modifier = Modifier
             .fillMaxWidth()
             .height(160.dp),
+        elevation = CardDefaults.cardElevation(5.dp)
     ) {
         Column (
             modifier = Modifier
@@ -108,14 +120,40 @@ private fun HomeSpendingCard() {
             Text(
                 text = "이번 달 지출",
                 fontSize = 14.sp,
+                fontWeight = FontWeight.Medium,
                 color = Color.White
             )
             Text(
                 text = "100,000원",
-                fontSize = 24.sp,
+                fontSize = 28.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = Color.White
             )
+            Spacer(modifier = Modifier.height(8.dp))
+            Column(
+                modifier = Modifier
+                    .align(Alignment.End),
+                horizontalAlignment = Alignment.End
+            ) {
+                Row {
+                    Text(
+                        text = "전월대비",
+                        fontSize = 14.sp,
+                        color = Color.White
+                    )
+                    Icon(
+                        imageVector = Icons.Default.ArrowDropDown,
+                        contentDescription = null,
+                        tint = Color.White
+                    )
+                }
+                Text(
+                    text = "50,000원",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.White
+                )
+            }
         }
     }
 }
