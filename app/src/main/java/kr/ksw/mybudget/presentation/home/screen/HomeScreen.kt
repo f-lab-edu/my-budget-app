@@ -17,7 +17,6 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,16 +28,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kr.ksw.mybudget.R
+import kr.ksw.mybudget.presentation.common.DATE_FORMAT_YMD
+import kr.ksw.mybudget.presentation.common.toDisplayString
 import kr.ksw.mybudget.ui.theme.MyBudgetTheme
 import kr.ksw.mybudget.ui.theme.turquoise
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 @Composable
 fun HomeScreen() {
-    val now = LocalDate
-        .now()
-        .format(DateTimeFormatter.ofPattern("yyyy.MM.dd"))
+    val now = LocalDate.now().toDisplayString(DATE_FORMAT_YMD)
     val name = "김석우"
 
     Column(
