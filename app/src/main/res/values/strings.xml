@@ -6,5 +6,10 @@
     <string name="main_route_name_budget">예산</string>
     <string name="main_route_name_card">카드</string>
 
+    <string name="display_currency_won">%d원</string>
+
     <string name="main_home_header_name_title">%s님 안녕하세요!</string>
+
+    <string name="main_home_spending_card_title">이번 달 지출</string>
+    <string name="main_home_spending_card_compare_title">전월대비</string>
 </resources>

@@ -118,13 +118,16 @@ private fun HomeSpendingCard() {
                 )
         ) {
             Text(
-                text = "이번 달 지출",
+                text = stringResource(R.string.main_home_spending_card_title),
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Medium,
                 color = Color.White
             )
             Text(
-                text = "100,000원",
+                text = String.format(
+                    stringResource(R.string.display_currency_won),
+                    100_000
+                ),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = Color.White
@@ -137,7 +140,7 @@ private fun HomeSpendingCard() {
             ) {
                 Row {
                     Text(
-                        text = "전월대비",
+                        text = stringResource(R.string.main_home_spending_card_compare_title),
                         fontSize = 14.sp,
                         color = Color.White
                     )
@@ -148,7 +151,10 @@ private fun HomeSpendingCard() {
                     )
                 }
                 Text(
-                    text = "50,000원",
+                    text = String.format(
+                        stringResource(R.string.display_currency_won),
+                        50_000
+                    ),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = Color.White
