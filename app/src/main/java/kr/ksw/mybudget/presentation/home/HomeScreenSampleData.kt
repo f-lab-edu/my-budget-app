@@ -1,6 +1,7 @@
 package kr.ksw.mybudget.presentation.home
 
 import kr.ksw.mybudget.data.local.entity.SpendingEntity
+import kr.ksw.mybudget.domain.mapper.toItem
 import java.time.LocalDate
 
 val spendingList = listOf(
@@ -46,4 +47,4 @@ val spendingList = listOf(
         subCategory = 41,
         price = 200_000
     ),
-)
+).map { it.toItem() }

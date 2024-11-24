@@ -13,6 +13,8 @@
     <string name="main_home_spending_card_title">이번 달 지출</string>
     <string name="main_home_spending_card_compare_title">전월대비</string>
 
+    <string name="main_home_spending_list_title">지출내역</string>
+
     <string name="spending_category_food">식비</string>
     <string name="spending_category_restaurant">음식점</string>
     <string name="spending_category_cafe">카페</string>

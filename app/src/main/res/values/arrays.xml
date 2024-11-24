@@ -4,7 +4,7 @@
         <item>@integer/category_restaurant</item>
         <item>@integer/category_cafe</item>
         <item>@integer/category_delivery</item>
-        <item>@integer/category_ingredients</item>
+        <item>@integer/category_grocery</item>
     </integer-array>
 
     <integer-array name="category_culture_array">

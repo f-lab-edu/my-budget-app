@@ -55,7 +55,7 @@ fun HomeScreen() {
         HomeSpendingCard()
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "지출내역",
+            text = stringResource(R.string.main_home_spending_list_title),
             fontSize = 18.sp
         )
         Spacer(modifier = Modifier.height(6.dp))
@@ -141,7 +141,9 @@ private fun HomeSpendingCard() {
             Text(
                 text = String.format(
                     stringResource(R.string.display_currency_won),
-                    100_000.toPriceString()
+                    spendingList.sumOf {
+                        it.price
+                    }.toPriceString()
                 ),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.SemiBold,

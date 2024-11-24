@@ -21,11 +21,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kr.ksw.mybudget.R
-import kr.ksw.mybudget.data.local.entity.SpendingEntity
+import kr.ksw.mybudget.domain.model.SpendingItem
 import kr.ksw.mybudget.presentation.common.DATE_FORMAT_YMD_E
 import kr.ksw.mybudget.presentation.common.toDisplayString
 import kr.ksw.mybudget.presentation.common.toPriceString
@@ -35,11 +36,10 @@ import kr.ksw.mybudget.ui.theme.grayTextColor
 import kr.ksw.mybudget.ui.theme.redTextColor
 import kr.ksw.mybudget.ui.theme.turquoiseIconBgColor
 import kr.ksw.mybudget.ui.theme.turquoiseIconColor
-import java.text.DecimalFormat
 
 @Composable
 fun SpendingCard(
-    item: SpendingEntity
+    item: SpendingItem
 ) {
     Card(
         modifier = Modifier
@@ -50,7 +50,7 @@ fun SpendingCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.White)
-                .padding(10.dp),
+                .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
@@ -64,7 +64,7 @@ fun SpendingCard(
                 Icon(
                     modifier = Modifier.size(36.dp),
                     imageVector = ImageVector.vectorResource(
-                        R.drawable.ic_food_24_outlined
+                        item.category.iconId
                     ),
                     contentDescription = "",
                     tint = turquoiseIconColor
@@ -87,13 +87,15 @@ fun SpendingCard(
             }
             Spacer(modifier = Modifier.weight(1F))
             Text(
-                text = "- ${String.format(
+                text = "-${String.format(
                     stringResource(R.string.display_currency_won),
                     item.price.toPriceString()
                 )}",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold,
-                color = redTextColor
+                color = redTextColor,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
             )
         }
     }

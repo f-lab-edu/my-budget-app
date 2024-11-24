@@ -31,5 +31,5 @@ val categoryMap = mapOf(
     35 to MEDICINE,
     36 to APPAREL,
     37 to EDUCATION,
-    41 to GROCERY,
+    41 to TRANSFER,
 )

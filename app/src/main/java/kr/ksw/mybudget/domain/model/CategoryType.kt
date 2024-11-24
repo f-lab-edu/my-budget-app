@@ -28,5 +28,7 @@ enum class SpendingType(
     APPAREL(3, 36, R.drawable.ic_apparel_24_outlined),
     EDUCATION(3, 37, R.drawable.ic_school_24_outlined),
 
+    TRANSFER(4, 41, R.drawable.ic_send_money_24_outlined),
+
     UNKNOWN(-1, -1, R.drawable.ic_receipt_long_24_outlined)
 }
