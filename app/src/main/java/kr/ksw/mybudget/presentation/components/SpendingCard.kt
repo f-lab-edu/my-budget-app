@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -86,7 +87,10 @@ fun SpendingCard(
             }
             Spacer(modifier = Modifier.weight(1F))
             Text(
-                text = "- ${item.price.toPriceString()}원",
+                text = "- ${String.format(
+                    stringResource(R.string.display_currency_won),
+                    item.price.toPriceString()
+                )}",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = redTextColor

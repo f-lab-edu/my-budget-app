@@ -30,6 +30,9 @@ import androidx.compose.ui.unit.sp
 import kr.ksw.mybudget.R
 import kr.ksw.mybudget.presentation.common.DATE_FORMAT_YMD
 import kr.ksw.mybudget.presentation.common.toDisplayString
+import kr.ksw.mybudget.presentation.common.toPriceString
+import kr.ksw.mybudget.presentation.components.SpendingCard
+import kr.ksw.mybudget.presentation.home.spendingList
 import kr.ksw.mybudget.ui.theme.MyBudgetTheme
 import kr.ksw.mybudget.ui.theme.turquoise
 import java.time.LocalDate
@@ -124,7 +127,7 @@ private fun HomeSpendingCard() {
             Text(
                 text = String.format(
                     stringResource(R.string.display_currency_won),
-                    100_000
+                    100_000.toPriceString()
                 ),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.SemiBold,
@@ -151,7 +154,7 @@ private fun HomeSpendingCard() {
                 Text(
                     text = String.format(
                         stringResource(R.string.display_currency_won),
-                        50_000
+                        50_000.toPriceString()
                     ),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold,
