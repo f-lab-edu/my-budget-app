@@ -10,7 +10,7 @@
     <integer name="category_restaurant">11</integer>
     <integer name="category_cafe">12</integer>
     <integer name="category_delivery">13</integer>
-    <integer name="category_ingredients">14</integer>
+    <integer name="category_grocery">14</integer>
 
     <!-- Culture -->
     <integer name="category_subscription">21</integer>
