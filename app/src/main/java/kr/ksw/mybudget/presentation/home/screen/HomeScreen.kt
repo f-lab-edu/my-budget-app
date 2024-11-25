@@ -1,5 +1,6 @@
 package kr.ksw.mybudget.presentation.home.screen
 
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,12 +25,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kr.ksw.mybudget.R
+import kr.ksw.mybudget.presentation.add.AddActivity
 import kr.ksw.mybudget.presentation.common.DATE_FORMAT_YMD
 import kr.ksw.mybudget.presentation.common.toDisplayString
 import kr.ksw.mybudget.presentation.common.toPriceString
@@ -43,6 +46,8 @@ import java.time.LocalDate
 fun HomeScreen() {
     val now = LocalDate.now().toDisplayString(DATE_FORMAT_YMD)
     val name = "김석우"
+
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -69,7 +74,11 @@ fun HomeScreen() {
                     it
                 }
             ) { index ->
-                SpendingCard(item = spendingList[index])
+                SpendingCard(
+                    item = spendingList[index]
+                ) {
+                    context.startActivity(Intent(context, AddActivity::class.java))
+                }
             }
         }
     }

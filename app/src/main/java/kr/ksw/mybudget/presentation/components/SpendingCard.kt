@@ -1,6 +1,7 @@
 package kr.ksw.mybudget.presentation.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,11 +40,13 @@ import kr.ksw.mybudget.ui.theme.turquoiseIconColor
 
 @Composable
 fun SpendingCard(
-    item: SpendingItem
+    item: SpendingItem,
+    onItemClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable(onClick = onItemClick),
         shape = RoundedCornerShape(8.dp)
     ) {
         Row(
@@ -107,6 +110,8 @@ fun SpendingCardPreview() {
     MyBudgetTheme {
         SpendingCard(
             item = spendingList[0]
-        )
+        ) {
+
+        }
     }
 }

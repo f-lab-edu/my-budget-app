@@ -23,3 +23,6 @@ val grayTextColor = Color(0xFF666666)
 
 val greenTextColor = Color(0xFF25A969)
 val redTextColor = Color(0xFFF95B51)
+
+val outlineTextFieldBorder = Color(0xFFDDDDDD)
+val inputTextColor = Color(0xFF666666)
