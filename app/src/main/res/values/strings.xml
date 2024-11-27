@@ -38,4 +38,6 @@
     
     <string name="spending_category_cash">현금거래</string>
     <string name="spending_category_transfer">송금</string>
+
+    <string name="spending_category_etc">기타</string>
 </resources>
