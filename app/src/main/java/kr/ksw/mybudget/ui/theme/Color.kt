@@ -26,3 +26,4 @@ val redTextColor = Color(0xFFF95B51)
 
 val outlineTextFieldBorder = Color(0xFFDDDDDD)
 val inputTextColor = Color(0xFF666666)
+val inputHintTextColor = Color(0xFF999999)
