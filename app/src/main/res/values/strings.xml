@@ -15,6 +15,10 @@
 
     <string name="main_home_spending_list_title">지출내역</string>
 
+    <string name="add_spending_screen_title">언제 어떤 지출을 하셨나요?</string>
+    <string name="add_spending_screen_title_date">날짜</string>
+    <string name="add_spending_screen_title_category">카테고리</string>
+
     <string name="spending_category_food">식비</string>
     <string name="spending_category_restaurant">음식점</string>
     <string name="spending_category_cafe">카페</string>
