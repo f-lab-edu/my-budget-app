@@ -38,6 +38,7 @@ import kr.ksw.mybudget.presentation.common.toDisplayString
 import kr.ksw.mybudget.presentation.common.toPriceString
 import kr.ksw.mybudget.presentation.components.SpendingCard
 import kr.ksw.mybudget.presentation.home.spendingList
+import kr.ksw.mybudget.presentation.keys.SPENDING_ITEM_KEY
 import kr.ksw.mybudget.ui.theme.MyBudgetTheme
 import kr.ksw.mybudget.ui.theme.turquoise
 import java.time.LocalDate
@@ -77,7 +78,11 @@ fun HomeScreen() {
                 SpendingCard(
                     item = spendingList[index]
                 ) {
-                    context.startActivity(Intent(context, AddActivity::class.java))
+                    context.startActivity(
+                        Intent(context, AddActivity::class.java).apply {
+                            putExtra(SPENDING_ITEM_KEY, spendingList[index])
+                        }
+                    )
                 }
             }
         }
