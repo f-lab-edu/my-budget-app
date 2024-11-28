@@ -1,6 +1,5 @@
 package kr.ksw.mybudget.presentation.add.screen
 
-import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -30,6 +29,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,7 +39,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -51,6 +50,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.core.text.isDigitsOnly
+import androidx.hilt.navigation.compose.hiltViewModel
 import kr.ksw.mybudget.R
 import kr.ksw.mybudget.data.local.entity.SpendingEntity
 import kr.ksw.mybudget.domain.mapper.toItem
@@ -58,6 +58,8 @@ import kr.ksw.mybudget.domain.model.SpendingItem
 import kr.ksw.mybudget.domain.model.SpendingType
 import kr.ksw.mybudget.presentation.add.dialog.SelectCategoryDialog
 import kr.ksw.mybudget.presentation.add.transformation.NumberCommaTransformation
+import kr.ksw.mybudget.presentation.add.viewmodel.AddSpendingState
+import kr.ksw.mybudget.presentation.add.viewmodel.AddSpendingViewModel
 import kr.ksw.mybudget.presentation.core.common.DATE_FORMAT_YMD_ADD
 import kr.ksw.mybudget.presentation.core.common.toDisplayString
 import kr.ksw.mybudget.presentation.core.common.toLocalDate
@@ -74,20 +76,28 @@ import java.util.Locale
 
 @Composable
 fun AddSpendingScreen(
-    item: SpendingItem
+    viewModel: AddSpendingViewModel = hiltViewModel()
+) {
+    val state by viewModel.state.collectAsState()
+    AddSpendingScreen(state)
+}
+
+@Composable
+fun AddSpendingScreen(
+    state: AddSpendingState
 ) {
     val scrollState = rememberScrollState()
     var showDatePicker by remember {
         mutableStateOf(false)
     }
     var selectedDate by remember {
-        mutableStateOf(item.date.toDisplayString(DATE_FORMAT_YMD_ADD))
+        mutableStateOf(state.item.date.toDisplayString(DATE_FORMAT_YMD_ADD))
     }
     var showCategoryDialog by remember {
         mutableStateOf(false)
     }
     var selectedType by remember {
-        mutableStateOf(item.category)
+        mutableStateOf(state.item.category)
     }
 
     Column(
@@ -126,13 +136,13 @@ fun AddSpendingScreen(
         Spacer(modifier = Modifier.height(16.dp))
         AddSpendingInputForm(
             title = "지출 이름",
-            text = item.title,
+            text = state.item.title,
             placeHolder = "지출 내역을 입력해 주세요."
         )
         Spacer(modifier = Modifier.height(16.dp))
         AddSpendingInputForm(
             title = "지출 비용",
-            text = item.price.toString(),
+            text = state.item.price.toString(),
             placeHolder = "비용을 입력해 주세요.",
             keyboardType = KeyboardType.Decimal,
             visualTransformation = NumberCommaTransformation()
@@ -243,7 +253,11 @@ private fun AddSpendingInputForm(
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(min = 40.dp),
-        value = inputText,
+        value = if(inputText == "0") {
+            ""
+        } else {
+            inputText
+        },
         onValueChange = {
             if(keyboardType == KeyboardType.Decimal) {
                 if (it.length < 10 && it.isDigitsOnly()) {
@@ -321,13 +335,15 @@ fun DatePickerModal(
 fun AddSpendingScreenPreview() {
     MyBudgetTheme {
         AddSpendingScreen(
-            item = SpendingEntity(
-                title = "영화",
-                date = LocalDate.now(),
-                majorCategory = 2,
-                subCategory = 22,
-                price = 15_000
-            ).toItem()
+            state = AddSpendingState(
+                item = SpendingEntity(
+                    title = "영화",
+                    date = LocalDate.now(),
+                    majorCategory = 2,
+                    subCategory = 22,
+                    price = 15_000
+                ).toItem()
+            )
         )
     }
 }
