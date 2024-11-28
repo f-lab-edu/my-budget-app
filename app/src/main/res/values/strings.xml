@@ -19,6 +19,9 @@
     <string name="add_spending_screen_title_date">날짜</string>
     <string name="add_spending_screen_title_category">카테고리</string>
 
+    <string name="common_button_confirm">확인</string>
+    <string name="common_button_cancel">취소</string>
+
     <string name="spending_category_food">식비</string>
     <string name="spending_category_restaurant">음식점</string>
     <string name="spending_category_cafe">카페</string>
