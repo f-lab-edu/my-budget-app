@@ -168,7 +168,6 @@ fun AddSpendingScreen(
         }
     }
 
-    val context = LocalContext.current
     if(showCategoryDialog) {
         Dialog(
             onDismissRequest = {
