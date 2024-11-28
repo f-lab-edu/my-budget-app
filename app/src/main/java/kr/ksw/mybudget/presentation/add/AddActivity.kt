@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.Surface
 import kr.ksw.mybudget.domain.model.SpendingItem
 import kr.ksw.mybudget.presentation.add.screen.AddSpendingScreen
-import kr.ksw.mybudget.presentation.keys.SPENDING_ITEM_KEY
+import kr.ksw.mybudget.presentation.core.keys.SPENDING_ITEM_KEY
 import kr.ksw.mybudget.ui.theme.MyBudgetTheme
 
 class AddActivity : ComponentActivity() {

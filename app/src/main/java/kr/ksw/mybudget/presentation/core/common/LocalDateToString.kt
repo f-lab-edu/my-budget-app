@@ -1,4 +1,4 @@
-package kr.ksw.mybudget.presentation.common
+package kr.ksw.mybudget.presentation.core.common
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
