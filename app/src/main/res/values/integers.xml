@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Major -->
+    <integer name="category_food">1</integer>
+    <integer name="category_culture">2</integer>
+    <integer name="category_life_style">3</integer>
+    <integer name="category_cash">4</integer>
+
+    <!-- Food -->
+    <integer name="category_restaurant">11</integer>
+    <integer name="category_cafe">12</integer>
+    <integer name="category_delivery">13</integer>
+    <integer name="category_ingredients">14</integer>
+
+    <!-- Culture -->
+    <integer name="category_subscription">21</integer>
+    <integer name="category_movie">22</integer>
+    <integer name="category_book">23</integer>
+    <integer name="category_performance">24</integer>
+
+    <!-- LifeStyle -->
+    <integer name="category_transportation">31</integer>
+    <integer name="category_communication">32</integer>
+    <integer name="category_housing">33</integer>
+    <integer name="category_hospital">34</integer>
+    <integer name="category_medicine">35</integer>
+    <integer name="category_apparel">36</integer>
+    <integer name="category_education">37</integer>
+
+    <!-- Cash -->
+    <integer name="category_transfer">41</integer>
+
+</resources>
