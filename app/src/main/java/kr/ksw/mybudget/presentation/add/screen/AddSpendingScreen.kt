@@ -1,5 +1,6 @@
 package kr.ksw.mybudget.presentation.add.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -10,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -47,12 +48,15 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.core.text.isDigitsOnly
 import kr.ksw.mybudget.R
 import kr.ksw.mybudget.data.local.entity.SpendingEntity
 import kr.ksw.mybudget.domain.mapper.toItem
 import kr.ksw.mybudget.domain.model.SpendingItem
+import kr.ksw.mybudget.domain.model.SpendingType
+import kr.ksw.mybudget.presentation.add.dialog.SelectCategoryDialog
 import kr.ksw.mybudget.presentation.add.transformation.NumberCommaTransformation
 import kr.ksw.mybudget.presentation.core.common.DATE_FORMAT_YMD_ADD
 import kr.ksw.mybudget.presentation.core.common.toDisplayString
@@ -76,9 +80,14 @@ fun AddSpendingScreen(
     var showDatePicker by remember {
         mutableStateOf(false)
     }
-
     var selectedDate by remember {
         mutableStateOf(item.date.toDisplayString(DATE_FORMAT_YMD_ADD))
+    }
+    var showCategoryDialog by remember {
+        mutableStateOf(false)
+    }
+    var selectedType by remember {
+        mutableStateOf(item.category)
     }
 
     Column(
@@ -106,13 +115,13 @@ fun AddSpendingScreen(
         Spacer(modifier = Modifier.height(16.dp))
         AddSpendingView(
             title = stringResource(R.string.add_spending_screen_title_category),
-            contentText = stringResource(item.category.titleId),
+            contentText = stringResource(selectedType.titleId),
             iconImage = ImageVector.vectorResource(
-                item.category.iconId
+                selectedType.iconId
             ),
             contentDescription = "Select Category",
         ) {
-            // open category dialog
+            showCategoryDialog = true
         }
         Spacer(modifier = Modifier.height(16.dp))
         AddSpendingInputForm(
@@ -158,6 +167,20 @@ fun AddSpendingScreen(
             showDatePicker = false
         }
     }
+
+    val context = LocalContext.current
+    if(showCategoryDialog) {
+        Dialog(
+            onDismissRequest = {
+                showCategoryDialog = false
+            }
+        ) {
+            SelectCategoryDialog { categoryIndex ->
+                selectedType = SpendingType.entries[categoryIndex]
+                showCategoryDialog = false
+            }
+        }
+    }
 }
 
 @Composable
@@ -196,7 +219,6 @@ private fun AddSpendingView(
         Text(
             text = contentText,
             color = inputTextColor,
-            fontSize = 14.sp,
         )
     }
 }

@@ -19,8 +19,8 @@ enum class SpendingType(
     // Culture Category
     SUBSCRIPTION(2, 21, R.drawable.ic_subscription_24_outlined, R.string.spending_category_subscription),
     MOVIE(2, 22, R.drawable.ic_movie_24_outlined, R.string.spending_category_movie),
-    BOOK(2, 23, R.drawable.ic_book_24_outlined, R.string.spending_category_performance),
-    PERFORMANCE(2, 24, R.drawable.ic_performance_24_outlined, R.string.spending_category_book),
+    BOOK(2, 23, R.drawable.ic_book_24_outlined, R.string.spending_category_book),
+    PERFORMANCE(2, 24, R.drawable.ic_performance_24_outlined, R.string.spending_category_performance),
 
     TRANSPORTATION(3, 31, R.drawable.ic_bus_24_outlined, R.string.spending_category_transportation),
     COMMUNICATION(3, 32, R.drawable.ic_call_24_outlined, R.string.spending_category_communication),
