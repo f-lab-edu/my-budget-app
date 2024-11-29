@@ -127,13 +127,19 @@ fun AddSpendingScreen(
         AddSpendingInputForm(
             title = "지출 이름",
             text = state.item.title,
-            placeHolder = "지출 내역을 입력해 주세요."
+            placeHolder = "지출 내역을 입력해 주세요.",
+            onTextChange = { text ->
+                onAction(AddSpendingActions.OnTitleChanged(text))
+            }
         )
         Spacer(modifier = Modifier.height(16.dp))
         AddSpendingInputForm(
             title = "지출 비용",
             text = state.item.price.toString(),
             placeHolder = "비용을 입력해 주세요.",
+            onTextChange = { text ->
+                onAction(AddSpendingActions.OnPriceChanged(text))
+            },
             keyboardType = KeyboardType.Decimal,
             visualTransformation = NumberCommaTransformation()
         )
@@ -227,11 +233,10 @@ private fun AddSpendingInputForm(
     title: String,
     text: String,
     placeHolder: String,
+    onTextChange: (String) -> Unit,
     keyboardType: KeyboardType = KeyboardType.Unspecified,
     visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
-    var inputText by remember { mutableStateOf(text) }
-
     Text(
         text = title,
         fontSize = 14.sp,
@@ -243,18 +248,18 @@ private fun AddSpendingInputForm(
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(min = 40.dp),
-        value = if(inputText == "0") {
+        value = if(text == "0") {
             ""
         } else {
-            inputText
+            text
         },
         onValueChange = {
             if(keyboardType == KeyboardType.Decimal) {
                 if (it.length < 10 && it.isDigitsOnly()) {
-                    inputText = it
+                    onTextChange(it)
                 }
             } else {
-                inputText = it
+                onTextChange(it)
             }
         },
         textStyle = LocalTextStyle.current.copy(

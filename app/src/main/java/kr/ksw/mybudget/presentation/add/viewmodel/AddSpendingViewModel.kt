@@ -19,16 +19,6 @@ class AddSpendingViewModel @Inject constructor(
     val state: StateFlow<AddSpendingState>
         get() = _state.asStateFlow()
 
-    fun initItem(item: SpendingItem?) {
-        if(item != null) {
-            _state.update {
-                it.copy(
-                    item = item
-                )
-            }
-        }
-    }
-
     fun onAction(action: AddSpendingActions) {
         when(action) {
             is AddSpendingActions.OnClickCategoryRow -> {
@@ -42,6 +32,29 @@ class AddSpendingViewModel @Inject constructor(
             }
             is AddSpendingActions.OnDismissDateRow -> {
                 updateDate(action.date)
+            }
+            is AddSpendingActions.OnTitleChanged -> {
+                updateTitle(action.title)
+            }
+            is AddSpendingActions.OnPriceChanged -> {
+                updatePrice(if(action.price.isEmpty()) {
+                    "0"
+                } else {
+                    action.price
+                })
+            }
+            is AddSpendingActions.OnClickAddButton -> {
+
+            }
+        }
+    }
+
+    fun initItem(item: SpendingItem?) {
+        if(item != null) {
+            _state.update {
+                it.copy(
+                    item = item
+                )
             }
         }
     }
@@ -85,6 +98,26 @@ class AddSpendingViewModel @Inject constructor(
                     )
                 )
             }
+        }
+    }
+
+    private fun updateTitle(title: String) {
+        _state.update {
+            it.copy(
+                item = it.item.copy(
+                    title = title
+                )
+            )
+        }
+    }
+
+    private fun updatePrice(price: String) {
+        _state.update {
+            it.copy(
+                item = it.item.copy(
+                    price = price.toInt()
+                )
+            )
         }
     }
 }
