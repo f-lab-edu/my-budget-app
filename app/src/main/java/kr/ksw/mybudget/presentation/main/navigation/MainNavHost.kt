@@ -10,6 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import kr.ksw.mybudget.presentation.home.screen.HomeScreen
 import kr.ksw.mybudget.presentation.main.navigation.route.MainRoute
 
 @Composable
@@ -23,14 +24,7 @@ fun MainNavHost(
         startDestination = MainRoute.HOME.route
     ) {
         composable(route = MainRoute.HOME.route) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = stringResource(MainRoute.HOME.title)
-                )
-            }
+            HomeScreen()
         }
         composable(route = MainRoute.STATISTICS.route) {
             Box(
