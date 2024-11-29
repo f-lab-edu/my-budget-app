@@ -15,6 +15,18 @@ fun SpendingEntity.toItem(): SpendingItem {
     )
 }
 
+fun SpendingItem.toEntity(): SpendingEntity {
+    return SpendingEntity(
+        id = id,
+        title = title,
+        date = date,
+        price = price,
+        majorCategory = category.majorCategory,
+        subCategory = category.subCategory,
+        cardNum = cardNum
+    )
+}
+
 val categoryMap = mapOf(
     11 to RESTAURANT,
     12 to CAFE,
