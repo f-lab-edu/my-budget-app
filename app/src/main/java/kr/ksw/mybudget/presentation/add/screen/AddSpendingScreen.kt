@@ -75,7 +75,7 @@ import java.util.Locale
 
 @Composable
 fun AddSpendingScreen(
-    viewModel: AddSpendingViewModel = hiltViewModel()
+    viewModel: AddSpendingViewModel
 ) {
     val state by viewModel.state.collectAsState()
     AddSpendingScreen(

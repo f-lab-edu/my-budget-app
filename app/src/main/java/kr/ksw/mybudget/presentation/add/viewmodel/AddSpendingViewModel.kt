@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kr.ksw.mybudget.domain.model.SpendingItem
 import kr.ksw.mybudget.domain.model.SpendingType
 import kr.ksw.mybudget.presentation.core.common.BaseViewModel
 import kr.ksw.mybudget.presentation.core.common.toLocalDate
@@ -17,6 +18,16 @@ class AddSpendingViewModel @Inject constructor(
     private val _state = MutableStateFlow(AddSpendingState())
     val state: StateFlow<AddSpendingState>
         get() = _state.asStateFlow()
+
+    fun initItem(item: SpendingItem?) {
+        if(item != null) {
+            _state.update {
+                it.copy(
+                    item = item
+                )
+            }
+        }
+    }
 
     fun onAction(action: AddSpendingActions) {
         when(action) {
