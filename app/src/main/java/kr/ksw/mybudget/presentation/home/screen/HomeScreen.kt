@@ -1,9 +1,11 @@
 package kr.ksw.mybudget.presentation.home.screen
 
+import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -22,6 +24,8 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,6 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import kr.ksw.mybudget.R
 import kr.ksw.mybudget.presentation.add.AddActivity
 import kr.ksw.mybudget.presentation.core.common.DATE_FORMAT_YMD
@@ -39,12 +44,25 @@ import kr.ksw.mybudget.presentation.core.common.toPriceString
 import kr.ksw.mybudget.presentation.components.SpendingCard
 import kr.ksw.mybudget.presentation.home.spendingList
 import kr.ksw.mybudget.presentation.core.keys.SPENDING_ITEM_KEY
+import kr.ksw.mybudget.presentation.home.viewmodel.HomeState
+import kr.ksw.mybudget.presentation.home.viewmodel.HomeViewModel
 import kr.ksw.mybudget.ui.theme.MyBudgetTheme
+import kr.ksw.mybudget.ui.theme.inputTextColor
 import kr.ksw.mybudget.ui.theme.turquoise
 import java.time.LocalDate
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    viewModel: HomeViewModel = hiltViewModel()
+) {
+    val state by viewModel.state.collectAsState()
+    HomeScreen(state)
+}
+
+@Composable
+fun HomeScreen(
+    state: HomeState
+) {
     val now = LocalDate.now().toDisplayString(DATE_FORMAT_YMD)
     val name = "김석우"
 
@@ -56,33 +74,46 @@ fun HomeScreen() {
             .padding(top = 36.dp)
             .padding(horizontal = 16.dp),
     ) {
-        HomeHeader(now, name)
+        HomeHeader(context, now, name)
         Spacer(modifier = Modifier.height(16.dp))
         HomeSpendingCard()
         Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = stringResource(R.string.main_home_spending_list_title),
-            fontSize = 18.sp
-        )
-        Spacer(modifier = Modifier.height(6.dp))
-        LazyColumn(
-            contentPadding = PaddingValues(vertical = 10.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            items(
-                count = spendingList.size,
-                key = {
-                    it
-                }
-            ) { index ->
-                SpendingCard(
-                    item = spendingList[index]
-                ) {
-                    context.startActivity(
-                        Intent(context, AddActivity::class.java).apply {
-                            putExtra(SPENDING_ITEM_KEY, spendingList[index])
-                        }
-                    )
+        if(state.spendingList.isEmpty()) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "첫 지출 내역을 입력해 보세요!",
+                    fontSize = 14.sp,
+                    color = inputTextColor
+                )
+            }
+        } else {
+            Text(
+                text = stringResource(R.string.main_home_spending_list_title),
+                fontSize = 18.sp
+            )
+            Spacer(modifier = Modifier.height(6.dp))
+            LazyColumn(
+                contentPadding = PaddingValues(vertical = 10.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                items(
+                    count = state.spendingList.size,
+                    key = {
+                        it
+                    }
+                ) { index ->
+                    SpendingCard(
+                        item = state.spendingList[index]
+                    ) {
+                        context.startActivity(
+                            Intent(context, AddActivity::class.java).apply {
+                                putExtra(SPENDING_ITEM_KEY, state.spendingList[index])
+                            }
+                        )
+                    }
                 }
             }
         }
@@ -91,6 +122,7 @@ fun HomeScreen() {
 
 @Composable
 private fun HomeHeader(
+    context: Context,
     now: String,
     name: String
 ) {
@@ -121,7 +153,9 @@ private fun HomeHeader(
             modifier = Modifier
                 .size(32.dp)
                 .clickable {
-
+                    context.startActivity(
+                        Intent(context, AddActivity::class.java)
+                    )
                 },
             imageVector = Icons.Default.Add,
             contentDescription = "Add Spending Icon"
@@ -199,7 +233,11 @@ private fun HomeSpendingCard() {
 @Preview(showBackground = true)
 fun HomeScreenPreview() {
     MyBudgetTheme {
-        HomeScreen()
+        HomeScreen(
+            state = HomeState(
+                spendingList = spendingList
+            )
+        )
     }
 }
 

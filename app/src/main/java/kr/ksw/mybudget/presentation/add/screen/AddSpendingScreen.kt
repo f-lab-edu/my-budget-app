@@ -163,7 +163,7 @@ fun AddSpendingScreen(
                 containerColor = turquoise
             ),
             onClick = {
-
+                onAction(AddSpendingActions.OnClickAddButton)
             }
         ) {
             Text(
