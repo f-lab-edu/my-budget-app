@@ -29,11 +29,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -50,7 +48,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.core.text.isDigitsOnly
-import androidx.hilt.navigation.compose.hiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kr.ksw.mybudget.R
 import kr.ksw.mybudget.data.local.entity.SpendingEntity
 import kr.ksw.mybudget.domain.mapper.toItem
@@ -59,6 +57,7 @@ import kr.ksw.mybudget.presentation.add.dialog.SelectCategoryDialog
 import kr.ksw.mybudget.presentation.add.transformation.NumberCommaTransformation
 import kr.ksw.mybudget.presentation.add.viewmodel.AddSpendingActions
 import kr.ksw.mybudget.presentation.add.viewmodel.AddSpendingState
+import kr.ksw.mybudget.presentation.add.viewmodel.AddSpendingUIEffect
 import kr.ksw.mybudget.presentation.add.viewmodel.AddSpendingViewModel
 import kr.ksw.mybudget.presentation.core.common.DATE_FORMAT_YMD_ADD
 import kr.ksw.mybudget.presentation.core.common.toDisplayString
@@ -75,8 +74,19 @@ import java.util.Locale
 
 @Composable
 fun AddSpendingScreen(
-    viewModel: AddSpendingViewModel
+    viewModel: AddSpendingViewModel,
+    onFinish: () -> Unit
 ) {
+    LaunchedEffect(viewModel.uiEffect) {
+        viewModel.uiEffect.collectLatest { effect ->
+            when(effect) {
+                is AddSpendingUIEffect.FinishAddScreen -> {
+                    onFinish()
+                }
+            }
+        }
+    }
+
     val state by viewModel.state.collectAsState()
     AddSpendingScreen(
         state = state,
@@ -125,18 +135,18 @@ fun AddSpendingScreen(
         }
         Spacer(modifier = Modifier.height(16.dp))
         AddSpendingInputForm(
-            title = "지출 이름",
+            title = stringResource(R.string.add_spending_screen_title_name),
             text = state.item.title,
-            placeHolder = "지출 내역을 입력해 주세요.",
+            placeHolder = stringResource(R.string.add_spending_screen_name_hint),
             onTextChange = { text ->
                 onAction(AddSpendingActions.OnTitleChanged(text))
             }
         )
         Spacer(modifier = Modifier.height(16.dp))
         AddSpendingInputForm(
-            title = "지출 비용",
+            title = stringResource(R.string.add_spending_screen_title_price),
             text = state.item.price.toString(),
-            placeHolder = "비용을 입력해 주세요.",
+            placeHolder = stringResource(R.string.add_spending_screen_price_hint),
             onTextChange = { text ->
                 onAction(AddSpendingActions.OnPriceChanged(text))
             },
@@ -146,7 +156,7 @@ fun AddSpendingScreen(
         Spacer(modifier = Modifier.weight(1f))
         Button(
             modifier = Modifier
-                .fillMaxWidth(0.8f)
+                .fillMaxWidth(0.9f)
                 .padding(vertical = 20.dp)
                 .align(Alignment.CenterHorizontally),
             colors = ButtonDefaults.buttonColors().copy(
@@ -157,7 +167,8 @@ fun AddSpendingScreen(
             }
         ) {
             Text(
-                text = "추가하기",
+                modifier = Modifier.padding(vertical = 4.dp),
+                text = stringResource(R.string.add_spending_screen_add_button),
                 fontSize = 18.sp
             )
         }
@@ -288,7 +299,6 @@ private fun AddSpendingInputForm(
 @Composable
 fun DatePickerModal(
     date: LocalDate? = LocalDate.now(),
-//    onDateSelected: (String) -> Unit,
     onDismiss: (String?) -> Unit
 ) {
     val initialDateMillis = date?.atStartOfDay(ZoneOffset.UTC)?.toInstant()?.toEpochMilli()

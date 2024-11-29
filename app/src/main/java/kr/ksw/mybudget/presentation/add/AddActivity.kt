@@ -23,7 +23,9 @@ class AddActivity : ComponentActivity() {
         setContent {
             MyBudgetTheme {
                 Surface {
-                    AddSpendingScreen(viewModel)
+                    AddSpendingScreen(viewModel) {
+                        finish()
+                    }
                 }
             }
         }

@@ -1,19 +1,22 @@
 package kr.ksw.mybudget.presentation.add.viewmodel
 
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import kr.ksw.mybudget.domain.model.SpendingItem
 import kr.ksw.mybudget.domain.model.SpendingType
+import kr.ksw.mybudget.domain.usecase.add.AddSpendingUseCase
 import kr.ksw.mybudget.presentation.core.common.BaseViewModel
 import kr.ksw.mybudget.presentation.core.common.toLocalDate
 import javax.inject.Inject
 
 @HiltViewModel
 class AddSpendingViewModel @Inject constructor(
-
+    private val addSpendingUseCase: AddSpendingUseCase
 ): BaseViewModel<AddSpendingUIEffect>() {
     private val _state = MutableStateFlow(AddSpendingState())
     val state: StateFlow<AddSpendingState>
@@ -44,7 +47,10 @@ class AddSpendingViewModel @Inject constructor(
                 })
             }
             is AddSpendingActions.OnClickAddButton -> {
-
+                viewModelScope.launch {
+                    addSpendingUseCase(state.value.item)
+                }
+                postUIEffect(AddSpendingUIEffect.FinishAddScreen)
             }
         }
     }
