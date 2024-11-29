@@ -5,5 +5,7 @@ import kr.ksw.mybudget.domain.model.SpendingItem
 
 @Immutable
 data class AddSpendingState(
-    val item: SpendingItem = SpendingItem()
+    val item: SpendingItem = SpendingItem(),
+    val showDatePickerDialog: Boolean = false,
+    val showCategoryDialog: Boolean = false,
 )

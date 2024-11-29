@@ -54,15 +54,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import kr.ksw.mybudget.R
 import kr.ksw.mybudget.data.local.entity.SpendingEntity
 import kr.ksw.mybudget.domain.mapper.toItem
-import kr.ksw.mybudget.domain.model.SpendingItem
 import kr.ksw.mybudget.domain.model.SpendingType
 import kr.ksw.mybudget.presentation.add.dialog.SelectCategoryDialog
 import kr.ksw.mybudget.presentation.add.transformation.NumberCommaTransformation
+import kr.ksw.mybudget.presentation.add.viewmodel.AddSpendingActions
 import kr.ksw.mybudget.presentation.add.viewmodel.AddSpendingState
 import kr.ksw.mybudget.presentation.add.viewmodel.AddSpendingViewModel
 import kr.ksw.mybudget.presentation.core.common.DATE_FORMAT_YMD_ADD
 import kr.ksw.mybudget.presentation.core.common.toDisplayString
-import kr.ksw.mybudget.presentation.core.common.toLocalDate
 import kr.ksw.mybudget.ui.theme.MyBudgetTheme
 import kr.ksw.mybudget.ui.theme.inputHintTextColor
 import kr.ksw.mybudget.ui.theme.inputTextColor
@@ -79,27 +78,18 @@ fun AddSpendingScreen(
     viewModel: AddSpendingViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    AddSpendingScreen(state)
+    AddSpendingScreen(
+        state = state,
+        onAction = viewModel::onAction
+    )
 }
 
 @Composable
 fun AddSpendingScreen(
-    state: AddSpendingState
+    state: AddSpendingState,
+    onAction: (AddSpendingActions) -> Unit
 ) {
     val scrollState = rememberScrollState()
-    var showDatePicker by remember {
-        mutableStateOf(false)
-    }
-    var selectedDate by remember {
-        mutableStateOf(state.item.date.toDisplayString(DATE_FORMAT_YMD_ADD))
-    }
-    var showCategoryDialog by remember {
-        mutableStateOf(false)
-    }
-    var selectedType by remember {
-        mutableStateOf(state.item.category)
-    }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -116,22 +106,22 @@ fun AddSpendingScreen(
         Spacer(modifier = Modifier.height(20.dp))
         AddSpendingView(
             title = stringResource(R.string.add_spending_screen_title_date),
-            contentText = selectedDate,
+            contentText = state.item.date.toDisplayString(DATE_FORMAT_YMD_ADD),
             iconImage = Icons.Default.DateRange,
             contentDescription = "Select Date",
         ) {
-            showDatePicker = true
+            onAction(AddSpendingActions.OnClickDateRow)
         }
         Spacer(modifier = Modifier.height(16.dp))
         AddSpendingView(
             title = stringResource(R.string.add_spending_screen_title_category),
-            contentText = stringResource(selectedType.titleId),
+            contentText = stringResource(state.item.category.titleId),
             iconImage = ImageVector.vectorResource(
-                selectedType.iconId
+                state.item.category.iconId
             ),
             contentDescription = "Select Category",
         ) {
-            showCategoryDialog = true
+            onAction(AddSpendingActions.OnClickCategoryRow)
         }
         Spacer(modifier = Modifier.height(16.dp))
         AddSpendingInputForm(
@@ -167,26 +157,26 @@ fun AddSpendingScreen(
         }
     }
 
-    if(showDatePicker) {
+    if(state.showDatePickerDialog) {
         DatePickerModal(
-            date = selectedDate.toLocalDate(),
-            onDateSelected = { date ->
-                selectedDate = date
-            }
-        ) {
-            showDatePicker = false
+            date = state.item.date,
+        ) { date ->
+            onAction(AddSpendingActions.OnDismissDateRow(
+                date = date
+            ))
         }
     }
 
-    if(showCategoryDialog) {
+    if(state.showCategoryDialog) {
         Dialog(
             onDismissRequest = {
-                showCategoryDialog = false
+                onAction(AddSpendingActions.OnDismissCategoryRow())
             }
         ) {
             SelectCategoryDialog { categoryIndex ->
-                selectedType = SpendingType.entries[categoryIndex]
-                showCategoryDialog = false
+                onAction(AddSpendingActions.OnDismissCategoryRow(
+                    category = SpendingType.entries[categoryIndex]
+                ))
             }
         }
     }
@@ -293,8 +283,8 @@ private fun AddSpendingInputForm(
 @Composable
 fun DatePickerModal(
     date: LocalDate? = LocalDate.now(),
-    onDateSelected: (String) -> Unit,
-    onDismiss: () -> Unit
+//    onDateSelected: (String) -> Unit,
+    onDismiss: (String?) -> Unit
 ) {
     val initialDateMillis = date?.atStartOfDay(ZoneOffset.UTC)?.toInstant()?.toEpochMilli()
         ?: System.currentTimeMillis()
@@ -304,21 +294,25 @@ fun DatePickerModal(
 
     DatePickerDialog(
         modifier = Modifier.scale(0.8f),
-        onDismissRequest = onDismiss,
+        onDismissRequest = {
+            onDismiss(null)
+        },
         confirmButton = {
             TextButton(onClick = {
-                datePickerState.selectedDateMillis?.let { selectedDateMillis ->
+                val selectedDate = datePickerState.selectedDateMillis?.let { selectedDateMillis ->
                     val formatter = SimpleDateFormat(DATE_FORMAT_YMD_ADD, Locale.getDefault())
                     val formattedDate = formatter.format(Date(selectedDateMillis))
-                    onDateSelected(formattedDate)
+                    formattedDate
                 }
-                onDismiss()
+                onDismiss(selectedDate)
             }) {
                 Text(stringResource(R.string.common_button_confirm))
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
+            TextButton(onClick = {
+                onDismiss(null)
+            }) {
                 Text(stringResource(R.string.common_button_cancel))
             }
         },
@@ -344,6 +338,6 @@ fun AddSpendingScreenPreview() {
                     price = 15_000
                 ).toItem()
             )
-        )
+        ) { }
     }
 }
