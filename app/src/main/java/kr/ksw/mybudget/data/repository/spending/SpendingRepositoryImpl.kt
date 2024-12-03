@@ -28,6 +28,16 @@ class SpendingRepositoryImpl @Inject constructor(
     }.catch { emit(emptyList()) }
         .flowOn(Dispatchers.IO)
 
+    override fun getSpendingEntitiesBetweenFlow(
+        from: LocalDate,
+        to: LocalDate
+    ): Flow<List<SpendingEntity>> = flow {
+        spendingDao.getSpendingEntitiesBetweenFlow(from, to).collect {
+            emit(it)
+        }
+    }.catch { emit(emptyList()) }
+        .flowOn(Dispatchers.IO)
+
     override suspend fun getSpendingEntitiesByMajorCategory(majorCategory: Int): List<SpendingEntity>
         = spendingDao.getSpendingEntitiesByMajorCategory(majorCategory = majorCategory)
 
