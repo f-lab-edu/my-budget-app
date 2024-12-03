@@ -27,16 +27,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kr.ksw.mybudget.R
+import kr.ksw.mybudget.data.local.entity.SpendingEntity
+import kr.ksw.mybudget.domain.mapper.toItem
 import kr.ksw.mybudget.domain.model.SpendingItem
 import kr.ksw.mybudget.presentation.core.common.DATE_FORMAT_YMD_E
 import kr.ksw.mybudget.presentation.core.common.toDisplayString
 import kr.ksw.mybudget.presentation.core.common.toPriceString
-import kr.ksw.mybudget.presentation.home.spendingList
 import kr.ksw.mybudget.ui.theme.MyBudgetTheme
 import kr.ksw.mybudget.ui.theme.grayTextColor
 import kr.ksw.mybudget.ui.theme.redTextColor
 import kr.ksw.mybudget.ui.theme.turquoiseIconBgColor
 import kr.ksw.mybudget.ui.theme.turquoiseIconColor
+import java.time.LocalDate
 
 @Composable
 fun SpendingCard(
@@ -109,7 +111,13 @@ fun SpendingCard(
 fun SpendingCardPreview() {
     MyBudgetTheme {
         SpendingCard(
-            item = spendingList[0]
+            item = SpendingEntity(
+                title = "스타벅스",
+                date = LocalDate.now(),
+                majorCategory = 1,
+                subCategory = 12,
+                price = 6_000
+            ).toItem()
         ) {
 
         }

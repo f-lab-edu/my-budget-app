@@ -18,6 +18,6 @@ class HomeViewModel @Inject constructor(
     val state: StateFlow<HomeState> = _state.asStateFlow()
 
     init {
-        
+
     }
 }

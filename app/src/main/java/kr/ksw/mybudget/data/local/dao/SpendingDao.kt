@@ -34,4 +34,10 @@ interface SpendingDao {
         from: LocalDate,
         to: LocalDate
     ): List<SpendingEntity>
+
+    @Query("SELECT * FROM spending_table WHERE date BETWEEN :from AND :to")
+    fun getSpendingEntitiesBetweenFlow(
+        from: LocalDate,
+        to: LocalDate
+    ): Flow<List<SpendingEntity>>
 }
