@@ -24,7 +24,9 @@ class HomeViewModel @Inject constructor(
             getMonthlySpendingUseCase().collectLatest { items ->
                 _state.update {
                     it.copy(
-                        spendingList = items
+                        spendingList = items.sortedByDescending { item ->
+                            item.date
+                        }
                     )
                 }
             }
