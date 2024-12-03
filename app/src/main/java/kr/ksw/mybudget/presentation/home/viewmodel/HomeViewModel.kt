@@ -9,15 +9,25 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kr.ksw.mybudget.domain.usecase.home.GetMonthlySpendingUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    private val getMonthlySpendingUseCase: GetMonthlySpendingUseCase
 ): ViewModel() {
     private val _state = MutableStateFlow(HomeState())
     val state: StateFlow<HomeState> = _state.asStateFlow()
 
     init {
-
+        viewModelScope.launch {
+            getMonthlySpendingUseCase().collectLatest { items ->
+                _state.update {
+                    it.copy(
+                        spendingList = items
+                    )
+                }
+            }
+        }
     }
 }
