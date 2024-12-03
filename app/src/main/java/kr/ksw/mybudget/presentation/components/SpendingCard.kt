@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,11 +31,10 @@ import kr.ksw.mybudget.R
 import kr.ksw.mybudget.data.local.entity.SpendingEntity
 import kr.ksw.mybudget.domain.mapper.toItem
 import kr.ksw.mybudget.domain.model.SpendingItem
-import kr.ksw.mybudget.presentation.core.common.DATE_FORMAT_YMD_E
+import kr.ksw.mybudget.presentation.core.common.DATE_FORMAT_YMD
 import kr.ksw.mybudget.presentation.core.common.toDisplayString
 import kr.ksw.mybudget.presentation.core.common.toPriceString
 import kr.ksw.mybudget.ui.theme.MyBudgetTheme
-import kr.ksw.mybudget.ui.theme.grayTextColor
 import kr.ksw.mybudget.ui.theme.redTextColor
 import kr.ksw.mybudget.ui.theme.turquoiseIconBgColor
 import kr.ksw.mybudget.ui.theme.turquoiseIconColor
@@ -64,10 +64,10 @@ fun SpendingCard(
                         color = turquoiseIconBgColor,
                         shape = RoundedCornerShape(8.dp)
                     )
-                    .padding(10.dp)
+                    .padding(12.dp)
             ) {
                 Icon(
-                    modifier = Modifier.size(36.dp),
+                    modifier = Modifier.size(26.dp),
                     imageVector = ImageVector.vectorResource(
                         item.category.iconId
                     ),
@@ -78,20 +78,24 @@ fun SpendingCard(
             Spacer(
                 modifier = Modifier.width(8.dp)
             )
-            Column {
+            Column(
+                modifier = Modifier.weight(1F)
+            ) {
                 Text(
                     text = item.title,
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.Medium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                 )
                 Text(
-                    text = item.date.toDisplayString(DATE_FORMAT_YMD_E),
+                    text = item.date.toDisplayString(DATE_FORMAT_YMD),
                     fontSize = 14.sp,
-                    color = grayTextColor
+                    color = Color.LightGray
                 )
             }
-            Spacer(modifier = Modifier.weight(1F))
             Text(
+                modifier = Modifier.weight(1F),
                 text = "-${String.format(
                     stringResource(R.string.display_currency_won),
                     item.price.toPriceString()
@@ -99,6 +103,7 @@ fun SpendingCard(
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = redTextColor,
+                textAlign = TextAlign.End,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
