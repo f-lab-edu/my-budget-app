@@ -42,7 +42,6 @@ import kr.ksw.mybudget.presentation.core.common.DATE_FORMAT_YMD
 import kr.ksw.mybudget.presentation.core.common.toDisplayString
 import kr.ksw.mybudget.presentation.core.common.toPriceString
 import kr.ksw.mybudget.presentation.components.SpendingCard
-import kr.ksw.mybudget.presentation.home.spendingList
 import kr.ksw.mybudget.presentation.core.keys.SPENDING_ITEM_KEY
 import kr.ksw.mybudget.presentation.home.viewmodel.HomeState
 import kr.ksw.mybudget.presentation.home.viewmodel.HomeViewModel
@@ -76,7 +75,9 @@ fun HomeScreen(
     ) {
         HomeHeader(context, now, name)
         Spacer(modifier = Modifier.height(16.dp))
-        HomeSpendingCard()
+        HomeSpendingCard(state.spendingList.sumOf {
+            it.price
+        }.toPriceString())
         Spacer(modifier = Modifier.height(16.dp))
         if(state.spendingList.isEmpty()) {
             Box(
@@ -164,7 +165,9 @@ private fun HomeHeader(
 }
 
 @Composable
-private fun HomeSpendingCard() {
+private fun HomeSpendingCard(
+    totalSpend: String
+) {
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -189,9 +192,7 @@ private fun HomeSpendingCard() {
             Text(
                 text = String.format(
                     stringResource(R.string.display_currency_won),
-                    spendingList.sumOf {
-                        it.price
-                    }.toPriceString()
+                    totalSpend
                 ),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.SemiBold,
@@ -235,7 +236,7 @@ fun HomeScreenPreview() {
     MyBudgetTheme {
         HomeScreen(
             state = HomeState(
-                spendingList = spendingList
+                spendingList = emptyList()
             )
         )
     }
