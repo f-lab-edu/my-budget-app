@@ -1,16 +1,15 @@
 package kr.ksw.mybudget.presentation.home.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import kr.ksw.mybudget.domain.usecase.home.GetMonthlySpendingUseCase
 import kr.ksw.mybudget.domain.usecase.home.GetPreviousMonthSpendingUseCase
+import kr.ksw.mybudget.presentation.core.common.viewModelLauncher
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,28 +21,35 @@ class HomeViewModel @Inject constructor(
     val state: StateFlow<HomeState> = _state.asStateFlow()
 
     init {
-        viewModelScope.launch {
+        viewModelLauncher {
             getMonthlySpendingUseCase().collectLatest { items ->
-                _state.update {
-                    it.copy(
+                updateState(
+                    state.value.copy(
                         spendingList = items.sortedByDescending { item ->
                             item.date
                         }
                     )
-                }
+                )
             }
         }
-        viewModelScope.launch {
-            getPreviousMonthSpendingUseCase().getOrNull()?.run {
-                val spend = sumOf {
-                    it.price
-                }
-                _state.update {
-                    it.copy(
-                        lastSpend = spend
+        viewModelLauncher {
+            getPreviousMonthSpendingUseCase().collectLatest { items ->
+                updateState(
+                    state.value.copy(
+                        lastSpend = items.sumOf {
+                            it.price
+                        }
                     )
-                }
+                )
             }
+        }
+    }
+
+    private fun updateState(
+        state: HomeState
+    ) {
+        _state.update {
+            state
         }
     }
 }

@@ -28,11 +28,11 @@ class SpendingRepositoryImpl @Inject constructor(
     }.catch { emit(emptyList()) }
         .flowOn(Dispatchers.IO)
 
-    override fun getSpendingEntitiesBetweenFlow(
+    override fun getSpendingEntitiesBetween(
         from: LocalDate,
         to: LocalDate
     ): Flow<List<SpendingEntity>> = flow {
-        spendingDao.getSpendingEntitiesBetweenFlow(from, to).collect {
+        spendingDao.getSpendingEntitiesBetween(from, to).collect {
             emit(it)
         }
     }.catch { emit(emptyList()) }
@@ -43,9 +43,4 @@ class SpendingRepositoryImpl @Inject constructor(
 
     override suspend fun getSpendingEntitiesBySubCategory(subCategory: Int): List<SpendingEntity>
         = spendingDao.getSpendingEntitiesBySubCategory(subCategory = subCategory)
-
-    override suspend fun getSpendingEntitiesBetween(
-        from: LocalDate,
-        to: LocalDate
-    ): List<SpendingEntity> = spendingDao.getSpendingEntitiesBetween(from, to)
 }
