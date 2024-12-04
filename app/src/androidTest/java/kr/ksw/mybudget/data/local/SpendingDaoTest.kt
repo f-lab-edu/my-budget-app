@@ -113,7 +113,7 @@ class SpendingDaoTest {
         }
         val from = LocalDate.now()
         val to = LocalDate.now()
-        val result = dao.getSpendingEntitiesBetween(from, to)
+        val result = dao.getSpendingEntitiesBetween(from, to).first()
         assert(result.isNotEmpty())
         assert(result.size == spendingList.size)
     }
@@ -126,7 +126,7 @@ class SpendingDaoTest {
         spendingListForBetween.forEach { spending ->
             dao.upsertSpendingEntity(spending)
         }
-        val result = dao.getSpendingEntitiesBetween(from, to)
+        val result = dao.getSpendingEntitiesBetween(from, to).first()
         assert(result.isNotEmpty())
         assert(result.size == 1)
     }
@@ -139,7 +139,7 @@ class SpendingDaoTest {
         spendingListForBetween.forEach { spending ->
             dao.upsertSpendingEntity(spending)
         }
-        val result = dao.getSpendingEntitiesBetween(from, to)
+        val result = dao.getSpendingEntitiesBetween(from, to).first()
         assert(result.isNotEmpty())
         assert(result.size == 2)
     }
@@ -153,7 +153,7 @@ class SpendingDaoTest {
         spendingListForBetween.forEach { spending ->
             dao.upsertSpendingEntity(spending)
         }
-        val result = dao.getSpendingEntitiesBetween(from, to)
+        val result = dao.getSpendingEntitiesBetween(from, to).first()
         assert(result.isNotEmpty())
         assert(result.size == 1)
     }
@@ -166,7 +166,7 @@ class SpendingDaoTest {
         spendingListForBetween.forEach { spending ->
             dao.upsertSpendingEntity(spending)
         }
-        val result = dao.getSpendingEntitiesBetween(from, now)
+        val result = dao.getSpendingEntitiesBetween(from, now).first()
         assert(result.isNotEmpty())
         assert(result.size == spendingListForBetween.size)
     }
@@ -179,7 +179,7 @@ class SpendingDaoTest {
         spendingListForBetween.forEach { spending ->
             dao.upsertSpendingEntity(spending)
         }
-        val result = dao.getSpendingEntitiesBetweenFlow(from, to).first()
+        val result = dao.getSpendingEntitiesBetween(from, to).first()
         assert(result.isNotEmpty())
         assert(result.size == 1)
     }
