@@ -28,6 +28,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -49,6 +50,7 @@ import kr.ksw.mybudget.ui.theme.MyBudgetTheme
 import kr.ksw.mybudget.ui.theme.inputTextColor
 import kr.ksw.mybudget.ui.theme.turquoise
 import java.time.LocalDate
+import kotlin.math.absoluteValue
 
 @Composable
 fun HomeScreen(
@@ -75,9 +77,12 @@ fun HomeScreen(
     ) {
         HomeHeader(context, now, name)
         Spacer(modifier = Modifier.height(16.dp))
-        HomeSpendingCard(state.spendingList.sumOf {
-            it.price
-        }.toPriceString())
+        HomeSpendingCard(
+            totalSpend = state.spendingList.sumOf {
+                it.price
+            },
+            lastSpend = state.lastSpend
+        )
         Spacer(modifier = Modifier.height(16.dp))
         if(state.spendingList.isEmpty()) {
             Box(
@@ -166,8 +171,10 @@ private fun HomeHeader(
 
 @Composable
 private fun HomeSpendingCard(
-    totalSpend: String
+    totalSpend: Int,
+    lastSpend: Int,
 ) {
+    val mom = lastSpend - totalSpend
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -192,7 +199,7 @@ private fun HomeSpendingCard(
             Text(
                 text = String.format(
                     stringResource(R.string.display_currency_won),
-                    totalSpend
+                    totalSpend.toPriceString()
                 ),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.SemiBold,
@@ -211,7 +218,17 @@ private fun HomeSpendingCard(
                         color = Color.White
                     )
                     Icon(
-                        imageVector = Icons.Default.ArrowDropDown,
+                        modifier = Modifier
+                            .rotate(if(mom > 0) {
+                                0F
+                            } else {
+                                180F
+                            }),
+                        imageVector = if(mom > 0) {
+                            Icons.Default.ArrowDropDown
+                        } else {
+                            Icons.Default.ArrowDropDown
+                        },
                         contentDescription = null,
                         tint = Color.White
                     )
@@ -219,7 +236,7 @@ private fun HomeSpendingCard(
                 Text(
                     text = String.format(
                         stringResource(R.string.display_currency_won),
-                        50_000.toPriceString()
+                        mom.absoluteValue.toPriceString()
                     ),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold,

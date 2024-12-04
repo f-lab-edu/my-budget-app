@@ -8,6 +8,8 @@ import kr.ksw.mybudget.domain.usecase.add.AddSpendingUseCase
 import kr.ksw.mybudget.domain.usecase.add.AddSpendingUseCaseImpl
 import kr.ksw.mybudget.domain.usecase.home.GetMonthlySpendingUseCase
 import kr.ksw.mybudget.domain.usecase.home.GetMonthlySpendingUseCaseImpl
+import kr.ksw.mybudget.domain.usecase.home.GetPreviousMonthSpendingUseCase
+import kr.ksw.mybudget.domain.usecase.home.GetPreviousMonthSpendingUseCaseImpl
 
 @Module
 @InstallIn(ActivityRetainedComponent::class)
@@ -21,4 +23,9 @@ abstract class SpendingModule {
     abstract fun bindGetMonthlySpendingUseCase(
         getMonthlySpendingUseCase: GetMonthlySpendingUseCaseImpl
     ): GetMonthlySpendingUseCase
+
+    @Binds
+    abstract fun bindGetPreviousMonthSpendingUSeCase(
+        getPreviousMonthSpendingUseCase: GetPreviousMonthSpendingUseCaseImpl
+    ): GetPreviousMonthSpendingUseCase
 }

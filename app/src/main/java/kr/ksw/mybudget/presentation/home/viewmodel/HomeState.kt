@@ -5,5 +5,6 @@ import kr.ksw.mybudget.domain.model.SpendingItem
 
 @Immutable
 data class HomeState(
-    val spendingList: List<SpendingItem> = emptyList()
+    val spendingList: List<SpendingItem> = emptyList(),
+    val lastSpend: Int = 0,
 )
