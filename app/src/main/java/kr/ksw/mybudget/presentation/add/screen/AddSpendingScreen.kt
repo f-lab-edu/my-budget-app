@@ -2,7 +2,9 @@ package kr.ksw.mybudget.presentation.add.screen
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +14,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -23,19 +26,21 @@ import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -239,15 +244,29 @@ private fun AddSpendingView(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AddSpendingInputForm(
     title: String,
     text: String,
     placeHolder: String,
     onTextChange: (String) -> Unit,
+    enabled: Boolean = true,
+    isError: Boolean = false,
     keyboardType: KeyboardType = KeyboardType.Unspecified,
-    visualTransformation: VisualTransformation = VisualTransformation.None
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    colors: TextFieldColors = OutlinedTextFieldDefaults.colors().copy(
+        focusedIndicatorColor = turquoise,
+        unfocusedIndicatorColor = outlineTextFieldBorder,
+    )
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+    var textValue = if(keyboardType == KeyboardType.Decimal && text == "0") {
+        ""
+    } else {
+        text
+    }
+
     Text(
         text = title,
         fontSize = 14.sp,
@@ -255,15 +274,11 @@ private fun AddSpendingInputForm(
         color = Color.Gray
     )
     Spacer(modifier = Modifier.height(8.dp))
-    OutlinedTextField(
+    BasicTextField(
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(min = 40.dp),
-        value = if(text == "0") {
-            ""
-        } else {
-            text
-        },
+        value = textValue,
         onValueChange = {
             if(keyboardType == KeyboardType.Decimal) {
                 if (it.length < 10 && it.isDigitsOnly()) {
@@ -280,18 +295,37 @@ private fun AddSpendingInputForm(
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = keyboardType
         ),
-        shape = RoundedCornerShape(8.dp),
-        placeholder = {
-            Text(
-                text = placeHolder,
-                color = inputHintTextColor
+        interactionSource = interactionSource,
+        visualTransformation = visualTransformation,
+        cursorBrush = SolidColor(turquoise),
+        decorationBox = { innerTextField ->
+            OutlinedTextFieldDefaults.DecorationBox(
+                value = textValue,
+                visualTransformation = visualTransformation,
+                innerTextField = innerTextField,
+                placeholder = {
+                    Text(
+                        text = placeHolder,
+                        color = inputHintTextColor
+                    )
+                },
+                singleLine = true,
+                colors = colors,
+                enabled = enabled,
+                isError = isError,
+                interactionSource = interactionSource,
+                container = {
+                    OutlinedTextFieldDefaults.Container(
+                        enabled = enabled,
+                        isError = isError,
+                        interactionSource = interactionSource,
+                        colors = colors,
+                        shape = RoundedCornerShape(8.dp),
+                    )
+                },
+                contentPadding = PaddingValues(12.dp)
             )
-        },
-        colors = OutlinedTextFieldDefaults.colors().copy(
-            focusedIndicatorColor = turquoise,
-            unfocusedIndicatorColor = outlineTextFieldBorder
-        ),
-        visualTransformation = visualTransformation
+        }
     )
 }
 
