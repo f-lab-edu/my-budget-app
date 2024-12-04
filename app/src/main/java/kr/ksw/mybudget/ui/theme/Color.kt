@@ -15,3 +15,15 @@ val turquoise2 = Color(0xFF2A7C76)
 val turquoise3 = Color(0xFF57E3B9)
 val turquoise4 = Color(0xFF027F87)
 val turquoiseTextColor = Color(0xFF438883)
+
+val turquoiseIconBgColor = Color(0xFFF0F6F5)
+val turquoiseIconColor = Color(0xFF549994)
+
+val grayTextColor = Color(0xFF666666)
+
+val greenTextColor = Color(0xFF25A969)
+val redTextColor = Color(0xFFF95B51)
+
+val outlineTextFieldBorder = Color(0xFFDDDDDD)
+val inputTextColor = Color(0xFF666666)
+val inputHintTextColor = Color(0xFF999999)

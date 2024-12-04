@@ -170,4 +170,17 @@ class SpendingDaoTest {
         assert(result.isNotEmpty())
         assert(result.size == spendingListForBetween.size)
     }
+
+    @Test
+    fun `getSpendingEntitiesBetween Month Flow Size 1`() = runTest {
+        val now = LocalDate.now()
+        val from = now.withDayOfMonth(1)
+        val to = now.withDayOfMonth(now.lengthOfMonth())
+        spendingListForBetween.forEach { spending ->
+            dao.upsertSpendingEntity(spending)
+        }
+        val result = dao.getSpendingEntitiesBetweenFlow(from, to).first()
+        assert(result.isNotEmpty())
+        assert(result.size == 1)
+    }
 }

@@ -6,23 +6,39 @@
     <string name="main_route_name_budget">예산</string>
     <string name="main_route_name_card">카드</string>
 
-    <string name="display_currency_won">%d원</string>
+    <string name="display_currency_won">%s원</string>
 
     <string name="main_home_header_name_title">%s님 안녕하세요!</string>
 
     <string name="main_home_spending_card_title">이번 달 지출</string>
     <string name="main_home_spending_card_compare_title">전월대비</string>
 
+    <string name="main_home_spending_list_title">지출내역</string>
+
+    <string name="add_spending_screen_title">언제 어떤 지출을 하셨나요?</string>
+    <string name="add_spending_screen_title_date">날짜</string>
+    <string name="add_spending_screen_title_category">카테고리</string>
+    <string name="add_spending_screen_title_name">지출 이름</string>
+    <string name="add_spending_screen_title_price">지출 비용</string>
+
+    <string name="add_spending_screen_name_hint">지출 내역을 입력해 주세요.</string>
+    <string name="add_spending_screen_price_hint">비용을 입력해 주세요.</string>
+
+    <string name="add_spending_screen_add_button">추가하기</string>
+
+    <string name="common_button_confirm">확인</string>
+    <string name="common_button_cancel">취소</string>
+
     <string name="spending_category_food">식비</string>
     <string name="spending_category_restaurant">음식점</string>
     <string name="spending_category_cafe">카페</string>
-    <string name="spending_category_delivery">배달음식</string>
-    <string name="spending_category_ingredients">식료품</string>
+    <string name="spending_category_delivery">배달</string>
+    <string name="spending_category_grocery">식료품</string>
 
     <string name="spending_category_culture">여가</string>
     <string name="spending_category_subscription">구독</string>
     <string name="spending_category_movie">영화</string>
-    <string name="spending_category_performance">공연/전시</string>
+    <string name="spending_category_performance">공연</string>
     <string name="spending_category_book">책</string>
 
     <string name="spending_category_life">생활</string>
@@ -36,4 +52,6 @@
     
     <string name="spending_category_cash">현금거래</string>
     <string name="spending_category_transfer">송금</string>
+
+    <string name="spending_category_etc">기타</string>
 </resources>
