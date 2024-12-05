@@ -10,6 +10,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import kr.ksw.mybudget.presentation.card.list.cardListStateMock
+import kr.ksw.mybudget.presentation.card.list.screen.CardListScreen
 import kr.ksw.mybudget.presentation.home.screen.HomeScreen
 import kr.ksw.mybudget.presentation.main.navigation.route.MainRoute
 
@@ -47,14 +49,9 @@ fun MainNavHost(
             }
         }
         composable(route = MainRoute.CARDS.route) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = stringResource(MainRoute.CARDS.title)
-                )
-            }
+            CardListScreen(
+                state = cardListStateMock
+            )
         }
     }
 }

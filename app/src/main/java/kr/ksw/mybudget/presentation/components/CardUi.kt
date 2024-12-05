@@ -36,16 +36,17 @@ const val bankCardAspectRatio = 1.586F // (width:height = 85.60mm:53.98mm)
 
 @Composable
 fun CardUi(
+    modifier: Modifier = Modifier,
     cardName: String,
     cardNumber: String,
     cardColor: Long,
     cardType: Int = CARD_TYPE_CREDIT
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .aspectRatio(bankCardAspectRatio),
-        elevation = CardDefaults.cardElevation(defaultElevation = 16.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
         Box {
             CardUiBackground(baseColor = Color(cardColor))  // Random Hex Color
