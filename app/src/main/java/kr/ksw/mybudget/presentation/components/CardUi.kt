@@ -11,9 +11,11 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kr.ksw.mybudget.presentation.core.common.setSaturation
 import kr.ksw.mybudget.ui.theme.MyBudgetTheme
 
 const val bankCardAspectRatio = 1.586F // (width:height = 85.60mm:53.98mm)
@@ -34,12 +36,24 @@ fun CardUi() {
 
 @Composable
 private fun BankCardBackground(baseColor: Color) {
+    val colorSaturation75 = baseColor.setSaturation(0.75f)
+    val colorSaturation50 = baseColor.setSaturation(0.5f)
+
     Canvas(
         modifier = Modifier
             .fillMaxSize()
             .background(baseColor)
     ) {
-
+        drawCircle(
+            color = colorSaturation75,
+            center = Offset(x = size.width * 0.2f, y = size.height * 0.6f),
+            radius = size.minDimension * 0.85f
+        )
+        drawCircle(
+            color = colorSaturation50,
+            center = Offset(x = size.width * 0.1f, y = size.height * 0.3f),
+            radius = size.minDimension * 0.75f
+        )
     }
 }
 
