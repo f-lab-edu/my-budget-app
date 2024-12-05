@@ -15,7 +15,7 @@ class GetMonthlySpendingUseCaseImpl @Inject constructor(
         val now = LocalDate.now()
         val from = now.withDayOfMonth(1)
         val to = now.withDayOfMonth(now.lengthOfMonth())
-        return spendingRepository.getSpendingEntitiesBetweenFlow(from, to).map { list ->
+        return spendingRepository.getSpendingEntitiesBetween(from, to).map { list ->
             list.map {
                 it.toItem()
             }

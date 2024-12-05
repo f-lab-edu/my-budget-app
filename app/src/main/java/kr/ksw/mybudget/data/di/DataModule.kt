@@ -27,4 +27,7 @@ object DataModule {
     @Singleton
     fun provideSpendingDao(myBudgetDatabase: MyBudgetDatabase) = myBudgetDatabase.spendingDao
 
+    @Provides
+    @Singleton
+    fun provideCardDao(myBudgetDatabase: MyBudgetDatabase) = myBudgetDatabase.cardDao
 }
