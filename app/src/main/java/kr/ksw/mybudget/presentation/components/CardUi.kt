@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kr.ksw.mybudget.R
 import kr.ksw.mybudget.data.local.entity.CARD_TYPE_CREDIT
+import kr.ksw.mybudget.presentation.core.common.getCardColor
 import kr.ksw.mybudget.presentation.core.common.setSaturation
 import kr.ksw.mybudget.ui.theme.MyBudgetTheme
 
@@ -37,6 +38,7 @@ const val bankCardAspectRatio = 1.586F // (width:height = 85.60mm:53.98mm)
 fun CardUi(
     cardName: String,
     cardNumber: String,
+    cardColor: Long,
     cardType: Int = CARD_TYPE_CREDIT
 ) {
     Card(
@@ -46,7 +48,7 @@ fun CardUi(
         elevation = CardDefaults.cardElevation(defaultElevation = 16.dp)
     ) {
         Box {
-            CardUiBackground(baseColor = Color(0xFF1252c8))  // Random Hex Color
+            CardUiBackground(baseColor = Color(cardColor))  // Random Hex Color
             CardHeader(
                 cardName = cardName,
                 cardType = cardType
@@ -173,6 +175,7 @@ fun CardUiPreview() {
             CardUi(
                 cardName = "SAMSUNG V2",
                 cardNumber = "1234567890123456",
+                cardColor = getCardColor()
             )
         }
     }

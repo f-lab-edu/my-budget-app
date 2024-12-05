@@ -68,3 +68,17 @@ fun Color.setSaturation(newSaturation: Float): Color {
     return hslToColor(hslValues[0], newSaturation.coerceIn(0f, 1f), hslValues[2])
 }
 
+// Random Color Generate
+fun getCardColor(): Long = cardColors.shuffled().first()
+
+val cardColors = listOf(
+    0xFFD29CB4,
+    0xFFaac4c2,
+    0xFFf1c40f,
+    0xFF34495e,
+    0xFFd35400,
+    0xFF1e8449,
+    0xFF48c9b0,
+    0xFFa569bd,
+)
+
