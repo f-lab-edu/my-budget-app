@@ -1,8 +1,8 @@
 package kr.ksw.mybudget.domain.mapper
 
 import kr.ksw.mybudget.data.local.entity.SpendingEntity
-import kr.ksw.mybudget.domain.model.SpendingItem
-import kr.ksw.mybudget.domain.model.SpendingType.*
+import kr.ksw.mybudget.domain.model.spending.SpendingItem
+import kr.ksw.mybudget.domain.model.spending.SpendingType.*
 
 fun SpendingEntity.toItem(): SpendingItem {
     return SpendingItem(

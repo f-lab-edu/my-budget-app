@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.sp
 import kr.ksw.mybudget.R
 import kr.ksw.mybudget.data.local.entity.SpendingEntity
 import kr.ksw.mybudget.domain.mapper.toItem
-import kr.ksw.mybudget.domain.model.SpendingItem
+import kr.ksw.mybudget.domain.model.spending.SpendingItem
 import kr.ksw.mybudget.presentation.core.common.DATE_FORMAT_YMD
 import kr.ksw.mybudget.presentation.core.common.toDisplayString
 import kr.ksw.mybudget.presentation.core.common.toPriceString

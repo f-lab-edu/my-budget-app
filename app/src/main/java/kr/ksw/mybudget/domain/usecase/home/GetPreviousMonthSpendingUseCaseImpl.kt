@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kr.ksw.mybudget.data.repository.spending.SpendingRepository
 import kr.ksw.mybudget.domain.mapper.toItem
-import kr.ksw.mybudget.domain.model.SpendingItem
+import kr.ksw.mybudget.domain.model.spending.SpendingItem
 import java.time.LocalDate
 import javax.inject.Inject
 
