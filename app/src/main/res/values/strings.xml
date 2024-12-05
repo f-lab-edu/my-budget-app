@@ -26,6 +26,9 @@
 
     <string name="add_spending_screen_add_button">추가하기</string>
 
+    <string name="card_type_credit">신용카드</string>
+    <string name="card_type_debit">체크카드</string>
+
     <string name="common_button_confirm">확인</string>
     <string name="common_button_cancel">취소</string>
 
