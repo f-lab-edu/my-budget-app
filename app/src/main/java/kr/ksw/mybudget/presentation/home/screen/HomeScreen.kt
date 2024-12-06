@@ -43,6 +43,7 @@ import kr.ksw.mybudget.presentation.core.common.DATE_FORMAT_YMD
 import kr.ksw.mybudget.presentation.core.common.toDisplayString
 import kr.ksw.mybudget.presentation.core.common.toPriceString
 import kr.ksw.mybudget.presentation.components.SpendingCard
+import kr.ksw.mybudget.presentation.core.common.Paddings
 import kr.ksw.mybudget.presentation.core.keys.SPENDING_ITEM_KEY
 import kr.ksw.mybudget.presentation.home.viewmodel.HomeState
 import kr.ksw.mybudget.presentation.home.viewmodel.HomeViewModel
@@ -72,8 +73,8 @@ fun HomeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 36.dp)
-            .padding(horizontal = 16.dp),
+            .padding(top = Paddings.ScaffoldTopPadding)
+            .padding(horizontal = Paddings.ScaffoldHorizontalPadding),
     ) {
         HomeHeader(context, now, name)
         Spacer(modifier = Modifier.height(16.dp))

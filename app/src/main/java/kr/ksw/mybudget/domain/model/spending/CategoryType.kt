@@ -1,4 +1,4 @@
-package kr.ksw.mybudget.domain.model
+package kr.ksw.mybudget.domain.model.spending
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

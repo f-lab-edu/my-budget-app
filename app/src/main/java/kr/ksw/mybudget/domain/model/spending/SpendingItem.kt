@@ -1,4 +1,4 @@
-package kr.ksw.mybudget.domain.model
+package kr.ksw.mybudget.domain.model.spending
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

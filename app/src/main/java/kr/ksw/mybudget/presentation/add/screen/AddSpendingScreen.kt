@@ -57,7 +57,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kr.ksw.mybudget.R
 import kr.ksw.mybudget.data.local.entity.SpendingEntity
 import kr.ksw.mybudget.domain.mapper.toItem
-import kr.ksw.mybudget.domain.model.SpendingType
+import kr.ksw.mybudget.domain.model.spending.SpendingType
 import kr.ksw.mybudget.presentation.add.dialog.SelectCategoryDialog
 import kr.ksw.mybudget.presentation.add.transformation.NumberCommaTransformation
 import kr.ksw.mybudget.presentation.add.viewmodel.AddSpendingActions

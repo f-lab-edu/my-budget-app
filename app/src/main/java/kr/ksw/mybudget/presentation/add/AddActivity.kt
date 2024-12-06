@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.material3.Surface
 import dagger.hilt.android.AndroidEntryPoint
-import kr.ksw.mybudget.domain.model.SpendingItem
+import kr.ksw.mybudget.domain.model.spending.SpendingItem
 import kr.ksw.mybudget.presentation.add.screen.AddSpendingScreen
 import kr.ksw.mybudget.presentation.add.viewmodel.AddSpendingViewModel
 import kr.ksw.mybudget.presentation.core.keys.SPENDING_ITEM_KEY

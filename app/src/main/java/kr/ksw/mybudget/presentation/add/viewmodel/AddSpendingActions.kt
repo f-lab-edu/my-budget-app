@@ -1,6 +1,6 @@
 package kr.ksw.mybudget.presentation.add.viewmodel
 
-import kr.ksw.mybudget.domain.model.SpendingType
+import kr.ksw.mybudget.domain.model.spending.SpendingType
 
 sealed interface AddSpendingActions {
     data object OnClickDateRow : AddSpendingActions

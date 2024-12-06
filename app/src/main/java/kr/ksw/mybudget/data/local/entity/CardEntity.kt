@@ -9,6 +9,7 @@ data class CardEntity(
     val id: Int? = null,
     val cardName: String,
     val cardNumber: String,
+    val cardColor: Long = 0xFFD29CB4,
     val cardType: Int,
 )
 
