@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import kr.ksw.mybudget.R
-import kr.ksw.mybudget.presentation.add.AddActivity
+import kr.ksw.mybudget.presentation.add.spending.AddActivity
 import kr.ksw.mybudget.presentation.core.common.DATE_FORMAT_YMD
 import kr.ksw.mybudget.presentation.core.common.toDisplayString
 import kr.ksw.mybudget.presentation.core.common.toPriceString

@@ -1,8 +1,6 @@
 package kr.ksw.mybudget.presentation.card.list.screen
 
 import android.content.Context
-import android.content.Intent
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -40,16 +38,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import kr.ksw.mybudget.R
-import kr.ksw.mybudget.data.local.entity.CARD_TYPE_CREDIT
-import kr.ksw.mybudget.data.local.entity.CARD_TYPE_DEBIT
 import kr.ksw.mybudget.domain.model.card.CardItem
-import kr.ksw.mybudget.presentation.add.AddActivity
 import kr.ksw.mybudget.presentation.card.list.cardListStateMock
 import kr.ksw.mybudget.presentation.card.list.viewmodel.CardListState
 import kr.ksw.mybudget.presentation.components.CardUi
 import kr.ksw.mybudget.presentation.components.SpendingCard
 import kr.ksw.mybudget.presentation.core.common.Paddings
-import kr.ksw.mybudget.presentation.core.keys.SPENDING_ITEM_KEY
 import kr.ksw.mybudget.ui.theme.MyBudgetTheme
 import kotlin.math.absoluteValue
 

@@ -1,4 +1,4 @@
-package kr.ksw.mybudget.presentation.add.dialog
+package kr.ksw.mybudget.presentation.add.spending.dialog
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

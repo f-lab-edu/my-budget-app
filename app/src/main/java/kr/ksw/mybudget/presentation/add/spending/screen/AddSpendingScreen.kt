@@ -1,4 +1,4 @@
-package kr.ksw.mybudget.presentation.add.screen
+package kr.ksw.mybudget.presentation.add.spending.screen
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -58,12 +58,12 @@ import kr.ksw.mybudget.R
 import kr.ksw.mybudget.data.local.entity.SpendingEntity
 import kr.ksw.mybudget.domain.mapper.toItem
 import kr.ksw.mybudget.domain.model.spending.SpendingType
-import kr.ksw.mybudget.presentation.add.dialog.SelectCategoryDialog
+import kr.ksw.mybudget.presentation.add.spending.dialog.SelectCategoryDialog
 import kr.ksw.mybudget.presentation.add.transformation.NumberCommaTransformation
-import kr.ksw.mybudget.presentation.add.viewmodel.AddSpendingActions
-import kr.ksw.mybudget.presentation.add.viewmodel.AddSpendingState
-import kr.ksw.mybudget.presentation.add.viewmodel.AddSpendingUIEffect
-import kr.ksw.mybudget.presentation.add.viewmodel.AddSpendingViewModel
+import kr.ksw.mybudget.presentation.add.spending.viewmodel.AddSpendingActions
+import kr.ksw.mybudget.presentation.add.spending.viewmodel.AddSpendingState
+import kr.ksw.mybudget.presentation.add.spending.viewmodel.AddSpendingUIEffect
+import kr.ksw.mybudget.presentation.add.spending.viewmodel.AddSpendingViewModel
 import kr.ksw.mybudget.presentation.core.common.DATE_FORMAT_YMD_ADD
 import kr.ksw.mybudget.presentation.core.common.toDisplayString
 import kr.ksw.mybudget.ui.theme.MyBudgetTheme
@@ -183,7 +183,8 @@ fun AddSpendingScreen(
         DatePickerModal(
             date = state.item.date,
         ) { date ->
-            onAction(AddSpendingActions.OnDismissDateRow(
+            onAction(
+                AddSpendingActions.OnDismissDateRow(
                 date = date
             ))
         }
@@ -196,7 +197,8 @@ fun AddSpendingScreen(
             }
         ) {
             SelectCategoryDialog { categoryIndex ->
-                onAction(AddSpendingActions.OnDismissCategoryRow(
+                onAction(
+                    AddSpendingActions.OnDismissCategoryRow(
                     category = SpendingType.entries[categoryIndex]
                 ))
             }
