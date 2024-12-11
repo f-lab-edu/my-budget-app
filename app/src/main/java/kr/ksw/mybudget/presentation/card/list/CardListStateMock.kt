@@ -21,14 +21,14 @@ val cardListStateMock = CardListState(
             id = 2,
             cardName = "HYUNDAI M",
             cardNumber = "4567456745674567",
-            cardColor = 0xFF34495e,
+            cardColor = 0xFF34495E,
             cardType = CARD_TYPE_CREDIT
         ),
         CardItem(
             id = 3,
             cardName = "KAKAO CHECK",
             cardNumber = "7897987897897412",
-            cardColor = 0xFF48c9b0,
+            cardColor = 0xFF48C9B0,
             cardType = CARD_TYPE_DEBIT
         ),
     ),

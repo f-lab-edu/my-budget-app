@@ -58,6 +58,8 @@ import kr.ksw.mybudget.R
 import kr.ksw.mybudget.data.local.entity.SpendingEntity
 import kr.ksw.mybudget.domain.mapper.toItem
 import kr.ksw.mybudget.domain.model.spending.SpendingType
+import kr.ksw.mybudget.presentation.add.common.components.ADD_INPUT_TYPE_NUMBER
+import kr.ksw.mybudget.presentation.add.common.components.AddInputForm
 import kr.ksw.mybudget.presentation.add.spending.dialog.SelectCategoryDialog
 import kr.ksw.mybudget.presentation.add.transformation.NumberCommaTransformation
 import kr.ksw.mybudget.presentation.add.spending.viewmodel.AddSpendingActions
@@ -139,7 +141,7 @@ fun AddSpendingScreen(
             onAction(AddSpendingActions.OnClickCategoryRow)
         }
         Spacer(modifier = Modifier.height(16.dp))
-        AddSpendingInputForm(
+        AddInputForm(
             title = stringResource(R.string.add_spending_screen_title_name),
             text = state.item.title,
             placeHolder = stringResource(R.string.add_spending_screen_name_hint),
@@ -148,7 +150,7 @@ fun AddSpendingScreen(
             }
         )
         Spacer(modifier = Modifier.height(16.dp))
-        AddSpendingInputForm(
+        AddInputForm(
             title = stringResource(R.string.add_spending_screen_title_price),
             text = state.item.price.toString(),
             placeHolder = stringResource(R.string.add_spending_screen_price_hint),
@@ -156,7 +158,8 @@ fun AddSpendingScreen(
                 onAction(AddSpendingActions.OnPriceChanged(text))
             },
             keyboardType = KeyboardType.Decimal,
-            visualTransformation = NumberCommaTransformation()
+            visualTransformation = NumberCommaTransformation(),
+            type = ADD_INPUT_TYPE_NUMBER
         )
         Spacer(modifier = Modifier.weight(1f))
         Button(
@@ -244,91 +247,6 @@ private fun AddSpendingView(
             color = inputTextColor,
         )
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun AddSpendingInputForm(
-    title: String,
-    text: String,
-    placeHolder: String,
-    onTextChange: (String) -> Unit,
-    enabled: Boolean = true,
-    isError: Boolean = false,
-    keyboardType: KeyboardType = KeyboardType.Unspecified,
-    visualTransformation: VisualTransformation = VisualTransformation.None,
-    colors: TextFieldColors = OutlinedTextFieldDefaults.colors().copy(
-        focusedIndicatorColor = turquoise,
-        unfocusedIndicatorColor = outlineTextFieldBorder,
-    )
-) {
-    val interactionSource = remember { MutableInteractionSource() }
-    var textValue = if(keyboardType == KeyboardType.Decimal && text == "0") {
-        ""
-    } else {
-        text
-    }
-
-    Text(
-        text = title,
-        fontSize = 14.sp,
-        fontWeight = FontWeight.SemiBold,
-        color = Color.Gray
-    )
-    Spacer(modifier = Modifier.height(8.dp))
-    BasicTextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 40.dp),
-        value = textValue,
-        onValueChange = {
-            if(keyboardType == KeyboardType.Decimal) {
-                if (it.length < 10 && it.isDigitsOnly()) {
-                    onTextChange(it)
-                }
-            } else {
-                onTextChange(it)
-            }
-        },
-        textStyle = LocalTextStyle.current.copy(
-            color = inputTextColor
-        ),
-        singleLine = true,
-        keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = keyboardType
-        ),
-        interactionSource = interactionSource,
-        visualTransformation = visualTransformation,
-        cursorBrush = SolidColor(turquoise),
-        decorationBox = { innerTextField ->
-            OutlinedTextFieldDefaults.DecorationBox(
-                value = textValue,
-                visualTransformation = visualTransformation,
-                innerTextField = innerTextField,
-                placeholder = {
-                    Text(
-                        text = placeHolder,
-                        color = inputHintTextColor
-                    )
-                },
-                singleLine = true,
-                colors = colors,
-                enabled = enabled,
-                isError = isError,
-                interactionSource = interactionSource,
-                container = {
-                    OutlinedTextFieldDefaults.Container(
-                        enabled = enabled,
-                        isError = isError,
-                        interactionSource = interactionSource,
-                        colors = colors,
-                        shape = RoundedCornerShape(8.dp),
-                    )
-                },
-                contentPadding = PaddingValues(12.dp)
-            )
-        }
-    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
