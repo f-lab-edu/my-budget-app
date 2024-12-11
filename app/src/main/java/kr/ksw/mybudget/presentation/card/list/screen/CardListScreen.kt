@@ -1,6 +1,7 @@
 package kr.ksw.mybudget.presentation.card.list.screen
 
 import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -39,6 +40,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import kr.ksw.mybudget.R
 import kr.ksw.mybudget.domain.model.card.CardItem
+import kr.ksw.mybudget.presentation.add.card.AddCardActivity
 import kr.ksw.mybudget.presentation.card.list.cardListStateMock
 import kr.ksw.mybudget.presentation.card.list.viewmodel.CardListState
 import kr.ksw.mybudget.presentation.components.CardUi
@@ -126,6 +128,10 @@ private fun CardListHeader(
                 .size(32.dp)
                 .clickable {
                     // Start AddCardActivity
+                    context.startActivity(Intent(
+                        context,
+                        AddCardActivity::class.java
+                    ))
                 },
             imageVector = Icons.Default.Add,
             contentDescription = "Add Card Icon"

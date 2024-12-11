@@ -1,13 +1,12 @@
 package kr.ksw.mybudget.presentation.add.transformation
 
-import android.util.Log
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 
 class CardNumberTransformation: VisualTransformation {
-    // Making XXXX-XXXX-XXXX-XXXX string.
+    // Making XXXX XXXX XXXX XXXX string.
     private val creditCardOffsetMapping = object : OffsetMapping {
         override fun originalToTransformed(offset: Int): Int {
             if (offset <= 3) return offset
@@ -35,6 +34,7 @@ class CardNumberTransformation: VisualTransformation {
         var out = ""
         for (i in trimmed.indices) {
             out += trimmed[i]
+            // Adding space after every 4th digit
             if (i % 4 == 3 && i != 15) {
                 out += " "
             }
