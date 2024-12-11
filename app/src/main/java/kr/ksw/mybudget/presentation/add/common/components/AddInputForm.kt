@@ -51,16 +51,14 @@ fun AddInputForm(
     ),
     type: Int = ADD_INPUT_TYPE_TEXT
 ) {
-    val textValue = if(keyboardType == KeyboardType.Decimal &&
-        text == "0" &&
-        type == ADD_INPUT_TYPE_NUMBER
+    val textValue = if(isNumber(keyboardType, type) && text == "0"
     ) {
         ""
     } else {
         text
     }
     val onValueChange = { value: String ->
-        if(keyboardType == KeyboardType.Decimal) {
+        if(isNumber(keyboardType, type)) {
             if (value.length < 10 && value.isDigitsOnly()) {
                 onTextChange(value)
             }
@@ -123,3 +121,9 @@ fun AddInputForm(
         }
     )
 }
+
+private fun isNumber(
+    keyboardType: KeyboardType,
+    type: Int
+) = keyboardType == KeyboardType.Decimal &&
+        type == ADD_INPUT_TYPE_NUMBER
