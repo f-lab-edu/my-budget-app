@@ -13,7 +13,7 @@ import kr.ksw.mybudget.presentation.core.keys.SPENDING_ITEM_KEY
 import kr.ksw.mybudget.ui.theme.MyBudgetTheme
 
 @AndroidEntryPoint
-class AddActivity : ComponentActivity() {
+class AddSpendingActivity : ComponentActivity() {
     private val viewModel: AddSpendingViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

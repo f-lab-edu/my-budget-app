@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import kr.ksw.mybudget.R
-import kr.ksw.mybudget.presentation.add.spending.AddActivity
+import kr.ksw.mybudget.presentation.add.spending.AddSpendingActivity
 import kr.ksw.mybudget.presentation.core.common.DATE_FORMAT_YMD
 import kr.ksw.mybudget.presentation.core.common.toDisplayString
 import kr.ksw.mybudget.presentation.core.common.toPriceString
@@ -116,7 +116,7 @@ fun HomeScreen(
                         item = state.spendingList[index]
                     ) {
                         context.startActivity(
-                            Intent(context, AddActivity::class.java).apply {
+                            Intent(context, AddSpendingActivity::class.java).apply {
                                 putExtra(SPENDING_ITEM_KEY, state.spendingList[index])
                             }
                         )
@@ -161,7 +161,7 @@ private fun HomeHeader(
                 .size(32.dp)
                 .clickable {
                     context.startActivity(
-                        Intent(context, AddActivity::class.java)
+                        Intent(context, AddSpendingActivity::class.java)
                     )
                 },
             imageVector = Icons.Default.Add,
