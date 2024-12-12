@@ -29,6 +29,10 @@
     <string name="card_type_credit">신용카드</string>
     <string name="card_type_debit">체크카드</string>
 
+    <string name="add_card_upsert_success_message">카드가 등록되었습니다.</string>
+    <string name="add_card_empty_name_error_message">카드 이름을 입력해주세요.</string>
+    <string name="add_card_number_error_message">카드 번호를 확인해주세요.</string>
+
     <string name="common_button_confirm">확인</string>
     <string name="common_button_cancel">취소</string>
 

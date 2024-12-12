@@ -1,7 +1,9 @@
 package kr.ksw.mybudget.presentation.add.card.screen
 
+import android.content.Context
 import android.graphics.Rect
 import android.view.ViewTreeObserver
+import android.widget.Toast
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.border
@@ -24,16 +26,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -42,15 +43,20 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kr.ksw.mybudget.R
 import kr.ksw.mybudget.data.local.entity.CARD_TYPE_CREDIT
 import kr.ksw.mybudget.data.local.entity.CARD_TYPE_DEBIT
+import kr.ksw.mybudget.presentation.add.card.viewmodel.AddCardActions
+import kr.ksw.mybudget.presentation.add.card.viewmodel.AddCardState
+import kr.ksw.mybudget.presentation.add.card.viewmodel.AddCardUIEffect
+import kr.ksw.mybudget.presentation.add.card.viewmodel.AddCardViewModel
 import kr.ksw.mybudget.presentation.add.common.components.ADD_INPUT_TYPE_CARD
 import kr.ksw.mybudget.presentation.add.common.components.AddInputForm
 import kr.ksw.mybudget.presentation.add.common.transformation.CardNumberTransformation
 import kr.ksw.mybudget.presentation.components.CardUi
 import kr.ksw.mybudget.presentation.core.common.Paddings
-import kr.ksw.mybudget.presentation.core.common.getCardColor
 import kr.ksw.mybudget.ui.theme.MyBudgetTheme
 import kr.ksw.mybudget.ui.theme.inputTextColor
 import kr.ksw.mybudget.ui.theme.outlineTextFieldBorder
@@ -61,25 +67,43 @@ private const val VERTICAL_SCROLL_RANGE = 2000
 private const val VERTICAL_SCROLL_ANIMATION_DURATION = 500
 
 @Composable
-fun AddCardScreen() {
+fun AddCardScreen(
+    viewModel: AddCardViewModel = hiltViewModel(),
+    onFinish: () -> Unit = {}
+) {
+    val context = LocalContext.current
+    LaunchedEffect(key1 = viewModel.uiEffect) {
+        viewModel.uiEffect.collectLatest { effect ->
+            when(effect) {
+                is AddCardUIEffect.FinishAddScreen -> {
+                    showToast(
+                        context = context,
+                        message = effect.message
+                    )
+                    onFinish()
+                }
+                is AddCardUIEffect.ShowToastMessage -> {
+                    showToast(
+                        context = context,
+                        message = effect.message
+                    )
+                }
+            }
+        }
+    }
+
+    val state by viewModel.state.collectAsState()
     AddCardScreen(
-        cardColor = getCardColor(),
-        cardType = CARD_TYPE_CREDIT
+        state = state,
+        onAction = viewModel::onAction
     )
 }
 
 @Composable
 fun AddCardScreen(
-    cardColor: Long,
-    cardType: Int,
+    state: AddCardState,
+    onAction: (AddCardActions) -> Unit
 ) {
-    var cardName by remember { mutableStateOf("") }
-    var cardNumber by remember { mutableStateOf("") }
-
-    var selectedCardType by remember {
-        mutableIntStateOf(cardType)
-    }
-
     val scrollState = rememberScrollState()
     val isKeyboardVisible by keyboardVisibility()
     LaunchedEffect(key1 = isKeyboardVisible) {
@@ -113,27 +137,28 @@ fun AddCardScreen(
                 .padding(
                     horizontal = Paddings.CardHorizontalPadding,
                 ),
-            cardName = cardName,
-            cardNumber = cardNumber,
-            cardColor = cardColor,
-            cardType = selectedCardType
+            cardName = state.cardItem.cardName,
+            cardNumber = state.cardItem.cardNumber,
+            cardColor = state.cardItem.cardColor,
+            cardType = state.cardItem.cardType
         )
         Spacer(modifier = Modifier.height(16.dp))
         AddInputForm(
             title = "카드 이름",
-            text = cardName,
+            text = state.cardItem.cardName,
             placeHolder = "카드 이름을 입력해 주세요.",
             onTextChange = {
-                cardName = it
+                onAction(AddCardActions.UpdateCardName(it))
             },
+            maxLength = 15
         )
         Spacer(modifier = Modifier.height(16.dp))
         AddInputForm(
             title = "카드 번호",
-            text = cardNumber,
+            text = state.cardItem.cardNumber,
             placeHolder = "카드 번호를 입력해 주세요. (16자)",
             onTextChange = {
-                cardNumber = it.take(16)
+                onAction(AddCardActions.UpdateCardNumber(it.take(16)))
             },
             keyboardType = KeyboardType.Decimal,
             visualTransformation = CardNumberTransformation(),
@@ -151,21 +176,21 @@ fun AddCardScreen(
         CardTypeButton(
             cardTypeText = "신용 카드",
             cardType = CARD_TYPE_CREDIT,
-            selectedCardType = selectedCardType,
+            selectedCardType = state.cardItem.cardType,
             iconImage = ImageVector.vectorResource(R.drawable.ic_credit_card_24_outlined),
             contentDescription = "Select Credit Card Button",
         ) {
-            selectedCardType = it
+            onAction(AddCardActions.SelectCardType(it))
         }
         Spacer(modifier = Modifier.height(8.dp))
         CardTypeButton(
             cardTypeText = "체크 카드",
             cardType = CARD_TYPE_DEBIT,
-            selectedCardType = selectedCardType,
+            selectedCardType = state.cardItem.cardType,
             iconImage = ImageVector.vectorResource(R.drawable.ic_finance_chip_24_outlined),
             contentDescription = "Select Debit Card Button",
         ) {
-            selectedCardType = it
+            onAction(AddCardActions.SelectCardType(it))
         }
 
         Spacer(modifier = Modifier.weight(1f))
@@ -178,7 +203,7 @@ fun AddCardScreen(
                 containerColor = turquoise
             ),
             onClick = {
-
+                onAction(AddCardActions.ClickAddButton)
             }
         ) {
             Text(
@@ -236,6 +261,17 @@ private fun getCardTypeText(isSelected: Boolean): Color = if(isSelected) {
     inputTextColor
 }
 
+private fun showToast(
+    context: Context,
+    message: Int
+) {
+    Toast.makeText(
+        context,
+        context.getString(message),
+        Toast.LENGTH_SHORT
+    ).show()
+}
+
 /*
     SoftKeyboard 감지 유일하게 성공한 예제
  */
@@ -263,6 +299,10 @@ fun keyboardVisibility(): State<Boolean> {
 @Preview(showBackground = true)
 fun AddCardScreenPreview() {
     MyBudgetTheme {
-        AddCardScreen()
+        AddCardScreen(
+            state = AddCardState(),
+        ) {
+
+        }
     }
 }

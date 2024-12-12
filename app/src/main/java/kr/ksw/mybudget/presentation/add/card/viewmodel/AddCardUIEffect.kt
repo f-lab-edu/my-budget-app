@@ -1,5 +1,6 @@
 package kr.ksw.mybudget.presentation.add.card.viewmodel
 
 sealed class AddCardUIEffect {
-    data object FinishAddScreen : AddCardUIEffect()
+    data class FinishAddScreen(val message: Int) : AddCardUIEffect()
+    data class ShowToastMessage(val message: Int) : AddCardUIEffect()
 }
