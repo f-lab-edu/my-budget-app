@@ -136,15 +136,19 @@ private fun CardNumber(
             CardDotGroup()
         }
 
-        Text(
-            text = cardNumber.takeLast(4),
-            style = TextStyle(
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                letterSpacing = 1.sp,
-                color = Color.White
+        if(cardNumber.length >= 16) {
+            Text(
+                text = cardNumber.takeLast(4),
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                    letterSpacing = 1.sp,
+                    color = Color.White
+                )
             )
-        )
+        } else {
+            Spacer(modifier = Modifier.width(48.dp))
+        }
     }
 }
 

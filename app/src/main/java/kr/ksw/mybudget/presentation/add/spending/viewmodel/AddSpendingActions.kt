@@ -1,4 +1,4 @@
-package kr.ksw.mybudget.presentation.add.viewmodel
+package kr.ksw.mybudget.presentation.add.spending.viewmodel
 
 import kr.ksw.mybudget.domain.model.spending.SpendingType
 

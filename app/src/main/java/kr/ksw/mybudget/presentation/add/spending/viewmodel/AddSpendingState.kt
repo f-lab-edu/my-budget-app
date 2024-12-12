@@ -1,4 +1,4 @@
-package kr.ksw.mybudget.presentation.add.viewmodel
+package kr.ksw.mybudget.presentation.add.spending.viewmodel
 
 import androidx.compose.runtime.Immutable
 import kr.ksw.mybudget.domain.model.spending.SpendingItem

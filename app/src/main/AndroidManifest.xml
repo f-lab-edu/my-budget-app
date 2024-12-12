@@ -26,7 +26,13 @@
         </activity>
 
         <activity
-            android:name=".presentation.add.AddActivity"
+            android:name=".presentation.add.spending.AddSpendingActivity"
+            android:windowSoftInputMode="adjustResize">
+
+        </activity>
+
+        <activity
+            android:name=".presentation.add.card.AddCardActivity"
             android:windowSoftInputMode="adjustResize">
 
         </activity>

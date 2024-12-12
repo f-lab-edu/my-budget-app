@@ -1,4 +1,4 @@
-package kr.ksw.mybudget.presentation.add.viewmodel
+package kr.ksw.mybudget.presentation.add.spending.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
