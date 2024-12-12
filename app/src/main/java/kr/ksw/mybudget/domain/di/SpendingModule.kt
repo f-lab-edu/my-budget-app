@@ -4,8 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityRetainedComponent
-import kr.ksw.mybudget.domain.usecase.add.AddSpendingUseCase
-import kr.ksw.mybudget.domain.usecase.add.AddSpendingUseCaseImpl
+import kr.ksw.mybudget.domain.usecase.add.spending.AddSpendingUseCase
+import kr.ksw.mybudget.domain.usecase.add.spending.AddSpendingUseCaseImpl
 import kr.ksw.mybudget.domain.usecase.home.GetMonthlySpendingUseCase
 import kr.ksw.mybudget.domain.usecase.home.GetMonthlySpendingUseCaseImpl
 import kr.ksw.mybudget.domain.usecase.home.GetPreviousMonthSpendingUseCase
