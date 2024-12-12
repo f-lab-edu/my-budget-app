@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kr.ksw.mybudget.domain.model.spending.SpendingItem
 import kr.ksw.mybudget.domain.model.spending.SpendingType
-import kr.ksw.mybudget.domain.usecase.add.AddSpendingUseCase
+import kr.ksw.mybudget.domain.usecase.add.spending.AddSpendingUseCase
 import kr.ksw.mybudget.presentation.core.common.BaseViewModel
 import kr.ksw.mybudget.presentation.core.common.toLocalDate
 import javax.inject.Inject

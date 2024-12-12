@@ -1,4 +1,4 @@
-package kr.ksw.mybudget.presentation.add.transformation
+package kr.ksw.mybudget.presentation.add.common.transformation
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping

@@ -1,4 +1,4 @@
-package kr.ksw.mybudget.domain.usecase.add
+package kr.ksw.mybudget.domain.usecase.add.spending
 
 import kr.ksw.mybudget.domain.model.spending.SpendingItem
 

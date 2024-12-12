@@ -61,7 +61,7 @@ import kr.ksw.mybudget.domain.model.spending.SpendingType
 import kr.ksw.mybudget.presentation.add.common.components.ADD_INPUT_TYPE_NUMBER
 import kr.ksw.mybudget.presentation.add.common.components.AddInputForm
 import kr.ksw.mybudget.presentation.add.spending.dialog.SelectCategoryDialog
-import kr.ksw.mybudget.presentation.add.transformation.NumberCommaTransformation
+import kr.ksw.mybudget.presentation.add.common.transformation.NumberCommaTransformation
 import kr.ksw.mybudget.presentation.add.spending.viewmodel.AddSpendingActions
 import kr.ksw.mybudget.presentation.add.spending.viewmodel.AddSpendingState
 import kr.ksw.mybudget.presentation.add.spending.viewmodel.AddSpendingUIEffect

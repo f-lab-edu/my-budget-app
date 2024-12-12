@@ -1,4 +1,4 @@
-package kr.ksw.mybudget.domain.usecase.add
+package kr.ksw.mybudget.domain.usecase.add.spending
 
 import kr.ksw.mybudget.data.repository.spending.SpendingRepository
 import kr.ksw.mybudget.domain.mapper.toEntity

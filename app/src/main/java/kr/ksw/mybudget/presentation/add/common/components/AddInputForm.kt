@@ -41,6 +41,7 @@ fun AddInputForm(
     text: String,
     placeHolder: String,
     onTextChange: (String) -> Unit,
+    maxLength: Int = 40,
     enabled: Boolean = true,
     isError: Boolean = false,
     keyboardType: KeyboardType = KeyboardType.Unspecified,
@@ -51,19 +52,20 @@ fun AddInputForm(
     ),
     type: Int = ADD_INPUT_TYPE_TEXT
 ) {
-    val textValue = if(isNumber(keyboardType, type) && text == "0"
-    ) {
+    val textValue = if(isNumber(keyboardType, type) && text == "0") {
         ""
     } else {
         text
     }
     val onValueChange = { value: String ->
-        if(isNumber(keyboardType, type)) {
-            if (value.length < 10 && value.isDigitsOnly()) {
+        if(value.length <= maxLength) {
+            if (isNumber(keyboardType, type)) {
+                if (value.length < 10 && value.isDigitsOnly()) {
+                    onTextChange(value)
+                }
+            } else {
                 onTextChange(value)
             }
-        } else {
-            onTextChange(value)
         }
     }
 
@@ -84,7 +86,6 @@ fun AddInputForm(
         textStyle = LocalTextStyle.current.copy(
             color = inputTextColor
         ),
-        singleLine = true,
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = keyboardType
         ),

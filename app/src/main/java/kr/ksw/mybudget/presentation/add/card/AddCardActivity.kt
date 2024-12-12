@@ -13,7 +13,9 @@ class AddCardActivity: ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyBudgetTheme {
-                AddCardScreen()
+                AddCardScreen {
+                    finish()
+                }
             }
         }
     }
