@@ -49,9 +49,7 @@ fun MainNavHost(
             }
         }
         composable(route = MainRoute.CARDS.route) {
-            CardListScreen(
-                state = cardListStateMock
-            )
+            CardListScreen()
         }
     }
 }

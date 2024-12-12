@@ -6,6 +6,7 @@ import kr.ksw.mybudget.domain.model.spending.SpendingItem
 
 @Immutable
 data class CardListState(
-    val cardList: List<CardItem>,
-    val spendingList: List<SpendingItem>,
+    val cardList: List<CardItem> = emptyList(),
+    val selectedCardIndex: Int = 0,
+    val spendingList: List<SpendingItem> = emptyList(),
 )

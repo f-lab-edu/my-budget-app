@@ -4,5 +4,5 @@ import kotlinx.coroutines.flow.Flow
 import kr.ksw.mybudget.domain.model.card.CardItem
 
 interface GetAllCardUseCase {
-    fun invoke(): Flow<List<CardItem>>
+    operator fun invoke(): Flow<List<CardItem>>
 }

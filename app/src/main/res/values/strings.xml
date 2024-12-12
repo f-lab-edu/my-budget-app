@@ -15,6 +15,9 @@
 
     <string name="main_home_spending_list_title">지출내역</string>
 
+    <string name="card_list_empty_card_list">카드를 등록해 주세요!</string>
+    <string name="card_list_empty_spending_list_by_selected_card">지출 내역이 없습니다!</string>
+
     <string name="add_spending_screen_title">언제 어떤 지출을 하셨나요?</string>
     <string name="add_spending_screen_title_date">날짜</string>
     <string name="add_spending_screen_title_category">카테고리</string>
