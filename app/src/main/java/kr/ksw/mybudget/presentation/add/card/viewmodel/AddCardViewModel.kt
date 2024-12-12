@@ -3,7 +3,9 @@ package kr.ksw.mybudget.presentation.add.card.viewmodel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kr.ksw.mybudget.R
+import kr.ksw.mybudget.domain.model.card.CardItem
 import kr.ksw.mybudget.domain.usecase.add.card.AddCardUseCase
 import kr.ksw.mybudget.presentation.core.common.BaseViewModel
 import kr.ksw.mybudget.presentation.core.common.viewModelLauncher
@@ -16,16 +18,25 @@ class AddCardViewModel @Inject constructor(
     private val _state = MutableStateFlow(AddCardState())
     val state = _state.asStateFlow()
 
+    private val cardItem: CardItem
+        get() = state.value.cardItem
+
     fun onAction(action: AddCardActions) {
         when (action) {
             is AddCardActions.SelectCardType -> {
-                _state.value = state.value.copy(cardItem = state.value.cardItem.copy(cardType = action.type))
+                updateState(
+                    cardItem.copy(cardType = action.type)
+                )
             }
             is AddCardActions.UpdateCardName -> {
-                _state.value = state.value.copy(cardItem = state.value.cardItem.copy(cardName = action.name))
+                updateState(
+                    cardItem.copy(cardName = action.name)
+                )
             }
             is AddCardActions.UpdateCardNumber -> {
-                _state.value = state.value.copy(cardItem = state.value.cardItem.copy(cardNumber = action.number))
+                updateState(
+                    cardItem.copy(cardNumber = action.number)
+                )
             }
             is AddCardActions.ClickAddButton -> {
                 val effect = if(state.value.cardItem.cardNumber.length == 16 &&
@@ -45,6 +56,16 @@ class AddCardViewModel @Inject constructor(
                 }
                 postUIEffect(effect)
             }
+        }
+    }
+
+    private fun updateState(
+        cardItem: CardItem
+    ) {
+        _state.update {
+            it.copy(
+                cardItem = cardItem
+            )
         }
     }
 
