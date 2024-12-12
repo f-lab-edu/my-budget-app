@@ -12,7 +12,11 @@ fun CardEntity.toItem() = CardItem(
 )
 
 fun CardItem.toEntity() = CardEntity(
-    id = id,
+    id = if(id == -1) {
+        null
+    } else {
+        id
+    },
     cardName = cardName,
     cardNumber = cardNumber,
     cardColor = cardColor,
