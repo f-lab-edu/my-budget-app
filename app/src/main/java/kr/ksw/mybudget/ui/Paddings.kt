@@ -1,4 +1,4 @@
-package kr.ksw.mybudget.presentation.core.common
+package kr.ksw.mybudget.ui
 
 import androidx.compose.ui.unit.dp
 

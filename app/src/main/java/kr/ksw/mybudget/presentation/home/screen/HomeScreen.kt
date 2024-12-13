@@ -43,7 +43,7 @@ import kr.ksw.mybudget.presentation.core.common.DATE_FORMAT_YMD
 import kr.ksw.mybudget.presentation.core.common.toDisplayString
 import kr.ksw.mybudget.presentation.core.common.toPriceString
 import kr.ksw.mybudget.presentation.components.SpendingCard
-import kr.ksw.mybudget.presentation.core.common.Paddings
+import kr.ksw.mybudget.ui.Paddings
 import kr.ksw.mybudget.presentation.core.keys.SPENDING_ITEM_KEY
 import kr.ksw.mybudget.presentation.home.viewmodel.HomeState
 import kr.ksw.mybudget.presentation.home.viewmodel.HomeViewModel

@@ -56,7 +56,7 @@ import kr.ksw.mybudget.presentation.add.common.components.ADD_INPUT_TYPE_CARD
 import kr.ksw.mybudget.presentation.add.common.components.AddInputForm
 import kr.ksw.mybudget.presentation.add.common.transformation.CardNumberTransformation
 import kr.ksw.mybudget.presentation.components.CardUi
-import kr.ksw.mybudget.presentation.core.common.Paddings
+import kr.ksw.mybudget.ui.Paddings
 import kr.ksw.mybudget.ui.theme.MyBudgetTheme
 import kr.ksw.mybudget.ui.theme.inputTextColor
 import kr.ksw.mybudget.ui.theme.outlineTextFieldBorder

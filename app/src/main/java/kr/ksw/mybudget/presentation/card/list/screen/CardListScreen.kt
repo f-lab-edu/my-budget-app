@@ -49,7 +49,7 @@ import kr.ksw.mybudget.presentation.card.list.viewmodel.CardListUIEffect
 import kr.ksw.mybudget.presentation.card.list.viewmodel.CardListViewModel
 import kr.ksw.mybudget.presentation.components.CardUi
 import kr.ksw.mybudget.presentation.components.SpendingCard
-import kr.ksw.mybudget.presentation.core.common.Paddings
+import kr.ksw.mybudget.ui.Paddings
 import kr.ksw.mybudget.presentation.core.keys.CARD_ITEM_KEY
 import kr.ksw.mybudget.ui.theme.MyBudgetTheme
 import kotlin.math.absoluteValue
