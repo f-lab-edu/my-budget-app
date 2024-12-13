@@ -2,11 +2,7 @@ package kr.ksw.mybudget.presentation.add.spending.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kr.ksw.mybudget.R
 import kr.ksw.mybudget.domain.model.spending.SpendingItem
@@ -22,11 +18,7 @@ import javax.inject.Inject
 class AddSpendingViewModel @Inject constructor(
     private val addSpendingUseCase: AddSpendingUseCase,
     private val getAllCardUseCase: GetAllCardUseCase
-): BaseViewModel<AddSpendingUIEffect>() {
-    private val _state = MutableStateFlow(AddSpendingState())
-    val state: StateFlow<AddSpendingState>
-        get() = _state.asStateFlow()
-
+): BaseViewModel<AddSpendingState, AddSpendingUIEffect>(AddSpendingState()) {
     private val spendingItem: SpendingItem
         get() = state.value.item
 
@@ -75,7 +67,7 @@ class AddSpendingViewModel @Inject constructor(
         }
         viewModelLauncher {
             getAllCardUseCase().collectLatest { cardList ->
-                _state.update {
+                updateState {
                     it.copy(
                         cardList = cardList,
                         selectedCardIndex = item?.run {
@@ -98,7 +90,7 @@ class AddSpendingViewModel @Inject constructor(
         action: AddSpendingActions,
         show: Boolean = true
     ) {
-        _state.update {
+        updateState {
             when(action) {
                 is AddSpendingActions.OnClickCategoryRow -> it.copy(
                     showCategoryDialog = show
@@ -143,7 +135,7 @@ class AddSpendingViewModel @Inject constructor(
             show = false
         )
         cardIndex?.run {
-            _state.update {
+            updateState {
                 it.copy(
                     selectedCardIndex = this,
                     item = it.item.copy(
@@ -167,7 +159,7 @@ class AddSpendingViewModel @Inject constructor(
     }
 
     private fun updateItem(item: SpendingItem) {
-        _state.update {
+        updateState {
             it.copy(
                 item = item
             )

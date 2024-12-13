@@ -1,6 +1,5 @@
 package kr.ksw.mybudget.presentation.card.list.viewmodel
 
-import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,9 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CardListViewModel @Inject constructor(
     private val getAllCardUseCase: GetAllCardUseCase
-): BaseViewModel<CardListUIEffect>() {
-    private val _state = MutableStateFlow(CardListState())
-    val state = _state.asStateFlow()
+): BaseViewModel<CardListState, CardListUIEffect>(CardListState()) {
 
     init {
         viewModelLauncher {
@@ -42,7 +39,7 @@ class CardListViewModel @Inject constructor(
                 )
             }
             is CardListActions.OnSelectedCard -> {
-                _state.update {
+                updateState {
                     it.copy(
                         selectedCardIndex = action.cardIndex
                     )
@@ -54,7 +51,7 @@ class CardListViewModel @Inject constructor(
     private fun updateCardList(
         cardList: List<CardItem>
     ) {
-        _state.update {
+        updateState {
             it.copy(
                 cardList = cardList
             )
