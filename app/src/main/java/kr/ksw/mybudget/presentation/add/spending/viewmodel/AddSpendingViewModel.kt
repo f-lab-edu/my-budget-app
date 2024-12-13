@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kr.ksw.mybudget.R
 import kr.ksw.mybudget.domain.model.spending.SpendingItem
 import kr.ksw.mybudget.domain.model.spending.SpendingType
 import kr.ksw.mybudget.domain.usecase.add.spending.AddSpendingUseCase
@@ -48,11 +49,16 @@ class AddSpendingViewModel @Inject constructor(
                 })
             }
             is AddSpendingActions.OnClickAddButton -> {
-
-                viewModelScope.launch {
-                    addSpendingUseCase(state.value.item)
+                if(spendingItem.title.isEmpty()) {
+                    postUIEffect(AddSpendingUIEffect.ShowToastMessage(
+                        R.string.main_home_spending_title_empty
+                    ))
+                } else {
+                    viewModelScope.launch {
+                        addSpendingUseCase(state.value.item)
+                    }
+                    postUIEffect(AddSpendingUIEffect.FinishAddScreen)
                 }
-                postUIEffect(AddSpendingUIEffect.FinishAddScreen)
             }
         }
     }

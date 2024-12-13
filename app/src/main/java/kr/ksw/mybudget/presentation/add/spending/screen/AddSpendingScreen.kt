@@ -1,5 +1,6 @@
 package kr.ksw.mybudget.presentation.add.spending.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -42,6 +43,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -84,11 +86,19 @@ fun AddSpendingScreen(
     viewModel: AddSpendingViewModel,
     onFinish: () -> Unit
 ) {
+    val context = LocalContext.current
     LaunchedEffect(viewModel.uiEffect) {
         viewModel.uiEffect.collectLatest { effect ->
             when(effect) {
                 is AddSpendingUIEffect.FinishAddScreen -> {
                     onFinish()
+                }
+                is AddSpendingUIEffect.ShowToastMessage -> {
+                    Toast.makeText(
+                        context,
+                        effect.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
