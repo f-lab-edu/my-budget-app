@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
@@ -25,9 +26,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kr.ksw.mybudget.R
 import kr.ksw.mybudget.domain.model.spending.SpendingType
 import kr.ksw.mybudget.ui.theme.MyBudgetTheme
 import kr.ksw.mybudget.ui.theme.inputTextColor
@@ -39,17 +42,28 @@ fun SelectCategoryDialog(
 ) {
     Column(
         modifier = Modifier
+            .padding(horizontal = 20.dp)
             .fillMaxWidth()
             .sizeIn(maxHeight = 480.dp)
             .background(
                 color = Color.White,
                 shape = RoundedCornerShape(8.dp),
             )
-            .padding(horizontal = 10.dp)
+            .padding(horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Spacer(modifier = Modifier.height(24.dp))
+        Text(
+            text = stringResource(R.string.add_spending_screen_title_category),
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 20.sp
+        )
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
-            contentPadding = PaddingValues(vertical = 24.dp),
+            contentPadding = PaddingValues(
+                top = 16.dp,
+                bottom = 24.dp
+            ),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {

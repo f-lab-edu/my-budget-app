@@ -4,12 +4,16 @@ import kr.ksw.mybudget.domain.model.spending.SpendingType
 
 sealed interface AddSpendingActions {
     data object OnClickDateRow : AddSpendingActions
-    data class OnDismissDateRow(
+    data class OnDismissDatePickerDialog(
         val date: String? = null,
     ) : AddSpendingActions
     data object OnClickCategoryRow : AddSpendingActions
-    data class OnDismissCategoryRow(
+    data class OnDismissCategoryDialog(
         val category: SpendingType? = null,
+    ) : AddSpendingActions
+    data object OnClickCardRow : AddSpendingActions
+    data class OnDismissCardDialog(
+        val cardIndex: Int? = null
     ) : AddSpendingActions
     data class OnTitleChanged(
         val title: String
