@@ -22,10 +22,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kr.ksw.mybudget.R
 import kr.ksw.mybudget.domain.model.card.CardItem
 import kr.ksw.mybudget.presentation.add.common.components.CardInfoText
 import kr.ksw.mybudget.presentation.card.list.cardListStateMock
@@ -50,7 +52,7 @@ fun SelectCardDialog(
     ) {
         Spacer(modifier = Modifier.height(24.dp))
         Text(
-            text = "카드 선택",
+            text = stringResource(R.string.add_spending_card_dialog_title),
             fontWeight = FontWeight.SemiBold,
             fontSize = 20.sp
         )

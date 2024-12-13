@@ -1,6 +1,5 @@
 package kr.ksw.mybudget.presentation.add.spending.screen
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -310,7 +309,7 @@ private fun SpendingCardView(
     onRowClick: () -> Unit
 ) {
     Text(
-        text = "지출 카드",
+        text = stringResource(R.string.add_spending_screen_title_card),
         fontSize = 14.sp,
         fontWeight = FontWeight.SemiBold,
         color = Color.Gray
