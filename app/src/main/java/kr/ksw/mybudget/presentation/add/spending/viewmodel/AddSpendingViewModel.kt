@@ -22,6 +22,9 @@ class AddSpendingViewModel @Inject constructor(
     val state: StateFlow<AddSpendingState>
         get() = _state.asStateFlow()
 
+    private val spendingItem: SpendingItem
+        get() = state.value.item
+
     fun onAction(action: AddSpendingActions) {
         when(action) {
             is AddSpendingActions.OnClickCategoryRow -> {
@@ -40,13 +43,12 @@ class AddSpendingViewModel @Inject constructor(
                 updateTitle(action.title)
             }
             is AddSpendingActions.OnPriceChanged -> {
-                updatePrice(if(action.price.isEmpty()) {
+                updatePrice(action.price.ifEmpty {
                     "0"
-                } else {
-                    action.price
                 })
             }
             is AddSpendingActions.OnClickAddButton -> {
+
                 viewModelScope.launch {
                     addSpendingUseCase(state.value.item)
                 }
@@ -57,11 +59,7 @@ class AddSpendingViewModel @Inject constructor(
 
     fun initItem(item: SpendingItem?) {
         if(item != null) {
-            _state.update {
-                it.copy(
-                    item = item
-                )
-            }
+            updateItem(item)
         }
     }
 
@@ -84,45 +82,37 @@ class AddSpendingViewModel @Inject constructor(
     private fun updateCategory(category: SpendingType?) {
         showCategoryDialog(false)
         category?.run {
-            _state.update {
-                it.copy(
-                    item = it.item.copy(
-                        category = this
-                    )
-                )
-            }
+            updateItem(spendingItem.copy(
+                category = this
+            ))
         }
     }
 
     private fun updateDate(date: String?) {
         showDatePicker(false)
         date?.run {
-            _state.update {
-                it.copy(
-                    item = it.item.copy(
-                        date = this.toLocalDate()
-                    )
-                )
-            }
+            updateItem(spendingItem.copy(
+                date = this.toLocalDate()
+            ))
         }
     }
 
     private fun updateTitle(title: String) {
-        _state.update {
-            it.copy(
-                item = it.item.copy(
-                    title = title
-                )
-            )
-        }
+        updateItem(spendingItem.copy(
+            title = title
+        ))
     }
 
     private fun updatePrice(price: String) {
+        updateItem(spendingItem.copy(
+            price = price.toInt()
+        ))
+    }
+
+    private fun updateItem(item: SpendingItem) {
         _state.update {
             it.copy(
-                item = it.item.copy(
-                    price = price.toInt()
-                )
+                item = item
             )
         }
     }
