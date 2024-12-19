@@ -2,105 +2,144 @@ package kr.ksw.mybudget.presentation.add.spending.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kr.ksw.mybudget.R
 import kr.ksw.mybudget.domain.model.spending.SpendingItem
 import kr.ksw.mybudget.domain.model.spending.SpendingType
+import kr.ksw.mybudget.domain.usecase.add.card.GetAllCardUseCase
 import kr.ksw.mybudget.domain.usecase.add.spending.AddSpendingUseCase
 import kr.ksw.mybudget.presentation.core.common.BaseViewModel
 import kr.ksw.mybudget.presentation.core.common.toLocalDate
+import kr.ksw.mybudget.presentation.core.common.viewModelLauncher
 import javax.inject.Inject
 
 @HiltViewModel
 class AddSpendingViewModel @Inject constructor(
-    private val addSpendingUseCase: AddSpendingUseCase
-): BaseViewModel<AddSpendingUIEffect>() {
-    private val _state = MutableStateFlow(AddSpendingState())
-    val state: StateFlow<AddSpendingState>
-        get() = _state.asStateFlow()
+    private val addSpendingUseCase: AddSpendingUseCase,
+    private val getAllCardUseCase: GetAllCardUseCase
+): BaseViewModel<AddSpendingState, AddSpendingUIEffect>(AddSpendingState()) {
+    private val spendingItem: SpendingItem
+        get() = state.value.item
 
     fun onAction(action: AddSpendingActions) {
         when(action) {
-            is AddSpendingActions.OnClickCategoryRow -> {
-                showCategoryDialog(true)
+            is AddSpendingActions.OnClickCategoryRow,
+            is AddSpendingActions.OnClickDateRow,
+            is AddSpendingActions.OnClickCardRow-> {
+                showDialog(action = action)
             }
-            is AddSpendingActions.OnClickDateRow -> {
-                showDatePicker(true)
-            }
-            is AddSpendingActions.OnDismissCategoryRow -> {
+            is AddSpendingActions.OnDismissCategoryDialog -> {
                 updateCategory(action.category)
             }
-            is AddSpendingActions.OnDismissDateRow -> {
+            is AddSpendingActions.OnDismissDatePickerDialog -> {
                 updateDate(action.date)
+            }
+            is AddSpendingActions.OnDismissCardDialog -> {
+                updateCardIndex(action.cardIndex)
             }
             is AddSpendingActions.OnTitleChanged -> {
                 updateTitle(action.title)
             }
             is AddSpendingActions.OnPriceChanged -> {
-                updatePrice(if(action.price.isEmpty()) {
+                updatePrice(action.price.ifEmpty {
                     "0"
-                } else {
-                    action.price
                 })
             }
             is AddSpendingActions.OnClickAddButton -> {
-                viewModelScope.launch {
-                    addSpendingUseCase(state.value.item)
+                if(spendingItem.title.isEmpty()) {
+                    postUIEffect(AddSpendingUIEffect.ShowToastMessage(
+                        R.string.main_home_spending_title_empty
+                    ))
+                } else {
+                    viewModelScope.launch {
+                        addSpendingUseCase(state.value.item)
+                    }
+                    postUIEffect(AddSpendingUIEffect.FinishAddScreen)
                 }
-                postUIEffect(AddSpendingUIEffect.FinishAddScreen)
             }
         }
     }
 
     fun initItem(item: SpendingItem?) {
         if(item != null) {
-            _state.update {
-                it.copy(
-                    item = item
-                )
+            updateItem(item)
+        }
+        viewModelLauncher {
+            getAllCardUseCase().collectLatest { cardList ->
+                updateState {
+                    it.copy(
+                        cardList = cardList,
+                        selectedCardIndex = item?.run {
+                            val index = cardList.indexOfFirst { cardItem ->
+                                cardItem.cardNumber == this.cardNum
+                            }
+                            if(index == -1) {
+                                0
+                            } else {
+                                index
+                            }
+                        } ?: 0
+                    )
+                }
             }
         }
     }
 
-    private fun showDatePicker(show: Boolean) {
-        _state.update {
-            it.copy(
-                showDatePickerDialog = show
-            )
-        }
-    }
-
-    private fun showCategoryDialog(show: Boolean) {
-        _state.update {
-            it.copy(
-                showCategoryDialog = show
-            )
-        }
-    }
-
-    private fun updateCategory(category: SpendingType?) {
-        showCategoryDialog(false)
-        category?.run {
-            _state.update {
-                it.copy(
-                    item = it.item.copy(
-                        category = this
-                    )
+    private fun showDialog(
+        action: AddSpendingActions,
+        show: Boolean = true
+    ) {
+        updateState {
+            when(action) {
+                is AddSpendingActions.OnClickCategoryRow -> it.copy(
+                    showCategoryDialog = show
+                )
+                is AddSpendingActions.OnClickCardRow -> it.copy(
+                    showCardDialog = show
+                )
+                else -> it.copy(
+                    showDatePickerDialog = show
                 )
             }
         }
     }
 
     private fun updateDate(date: String?) {
-        showDatePicker(false)
+        showDialog(
+            action = AddSpendingActions.OnClickDateRow,
+            show = false
+        )
         date?.run {
-            _state.update {
+            updateItem(spendingItem.copy(
+                date = this.toLocalDate()
+            ))
+        }
+    }
+
+    private fun updateCategory(category: SpendingType?) {
+        showDialog(
+            action = AddSpendingActions.OnClickCategoryRow,
+            show = false
+        )
+        category?.run {
+            updateItem(spendingItem.copy(
+                category = this
+            ))
+        }
+    }
+
+    private fun updateCardIndex(cardIndex: Int?) {
+        showDialog(
+            action = AddSpendingActions.OnClickCardRow,
+            show = false
+        )
+        cardIndex?.run {
+            updateState {
                 it.copy(
+                    selectedCardIndex = this,
                     item = it.item.copy(
-                        date = this.toLocalDate()
+                        cardNum = it.cardList[this].cardNumber
                     )
                 )
             }
@@ -108,21 +147,21 @@ class AddSpendingViewModel @Inject constructor(
     }
 
     private fun updateTitle(title: String) {
-        _state.update {
-            it.copy(
-                item = it.item.copy(
-                    title = title
-                )
-            )
-        }
+        updateItem(spendingItem.copy(
+            title = title
+        ))
     }
 
     private fun updatePrice(price: String) {
-        _state.update {
+        updateItem(spendingItem.copy(
+            price = price.toInt()
+        ))
+    }
+
+    private fun updateItem(item: SpendingItem) {
+        updateState {
             it.copy(
-                item = it.item.copy(
-                    price = price.toInt()
-                )
+                item = item
             )
         }
     }

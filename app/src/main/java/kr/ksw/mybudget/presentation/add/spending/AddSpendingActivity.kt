@@ -14,16 +14,15 @@ import kr.ksw.mybudget.ui.theme.MyBudgetTheme
 
 @AndroidEntryPoint
 class AddSpendingActivity : ComponentActivity() {
-    private val viewModel: AddSpendingViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val item = intent.getParcelableExtra<SpendingItem>(SPENDING_ITEM_KEY)
-        viewModel.initItem(item)
         setContent {
             MyBudgetTheme {
                 Surface {
-                    AddSpendingScreen(viewModel) {
+                    AddSpendingScreen(
+                        spendingItem = item
+                    ) {
                         finish()
                     }
                 }

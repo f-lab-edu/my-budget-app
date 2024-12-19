@@ -1,21 +1,20 @@
 package kr.ksw.mybudget.presentation.add.spending.screen
 
+import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
@@ -25,43 +24,43 @@ import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import androidx.core.text.isDigitsOnly
+import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kr.ksw.mybudget.R
 import kr.ksw.mybudget.data.local.entity.SpendingEntity
 import kr.ksw.mybudget.domain.mapper.toItem
+import kr.ksw.mybudget.domain.model.card.CardItem
+import kr.ksw.mybudget.domain.model.spending.SpendingItem
 import kr.ksw.mybudget.domain.model.spending.SpendingType
 import kr.ksw.mybudget.presentation.add.common.components.ADD_INPUT_TYPE_NUMBER
 import kr.ksw.mybudget.presentation.add.common.components.AddInputForm
-import kr.ksw.mybudget.presentation.add.spending.dialog.SelectCategoryDialog
+import kr.ksw.mybudget.presentation.add.common.components.CardInfoText
 import kr.ksw.mybudget.presentation.add.common.transformation.NumberCommaTransformation
+import kr.ksw.mybudget.presentation.add.spending.dialog.SelectCardDialog
+import kr.ksw.mybudget.presentation.add.spending.dialog.SelectCategoryDialog
 import kr.ksw.mybudget.presentation.add.spending.viewmodel.AddSpendingActions
 import kr.ksw.mybudget.presentation.add.spending.viewmodel.AddSpendingState
 import kr.ksw.mybudget.presentation.add.spending.viewmodel.AddSpendingUIEffect
@@ -69,7 +68,6 @@ import kr.ksw.mybudget.presentation.add.spending.viewmodel.AddSpendingViewModel
 import kr.ksw.mybudget.presentation.core.common.DATE_FORMAT_YMD_ADD
 import kr.ksw.mybudget.presentation.core.common.toDisplayString
 import kr.ksw.mybudget.ui.theme.MyBudgetTheme
-import kr.ksw.mybudget.ui.theme.inputHintTextColor
 import kr.ksw.mybudget.ui.theme.inputTextColor
 import kr.ksw.mybudget.ui.theme.outlineTextFieldBorder
 import kr.ksw.mybudget.ui.theme.turquoise
@@ -81,19 +79,37 @@ import java.util.Locale
 
 @Composable
 fun AddSpendingScreen(
-    viewModel: AddSpendingViewModel,
+    viewModel: AddSpendingViewModel = hiltViewModel(),
+    spendingItem: SpendingItem? = null,
     onFinish: () -> Unit
 ) {
+    val context = LocalContext.current
     LaunchedEffect(viewModel.uiEffect) {
         viewModel.uiEffect.collectLatest { effect ->
             when(effect) {
                 is AddSpendingUIEffect.FinishAddScreen -> {
                     onFinish()
                 }
+                is AddSpendingUIEffect.ShowToastMessage -> {
+                    Toast.makeText(
+                        context,
+                        effect.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }
+    viewModel.initItem(spendingItem)
+    AddSpendingScreen(
+        viewModel = viewModel
+    )
+}
 
+@Composable
+fun AddSpendingScreen(
+    viewModel: AddSpendingViewModel,
+) {
     val state by viewModel.state.collectAsState()
     AddSpendingScreen(
         state = state,
@@ -139,6 +155,20 @@ fun AddSpendingScreen(
             contentDescription = "Select Category",
         ) {
             onAction(AddSpendingActions.OnClickCategoryRow)
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        if(state.cardList.isNotEmpty()) {
+            SpendingCardView(
+                cardItem = state.cardList[state.selectedCardIndex.run {
+                    if(this == -1) {
+                        0
+                    } else {
+                        this
+                    }
+                }]
+            ) {
+                onAction(AddSpendingActions.OnClickCardRow)
+            }
         }
         Spacer(modifier = Modifier.height(16.dp))
         AddInputForm(
@@ -187,7 +217,7 @@ fun AddSpendingScreen(
             date = state.item.date,
         ) { date ->
             onAction(
-                AddSpendingActions.OnDismissDateRow(
+                AddSpendingActions.OnDismissDatePickerDialog(
                 date = date
             ))
         }
@@ -195,15 +225,39 @@ fun AddSpendingScreen(
 
     if(state.showCategoryDialog) {
         Dialog(
+            properties = DialogProperties(
+                usePlatformDefaultWidth = false
+            ),
             onDismissRequest = {
-                onAction(AddSpendingActions.OnDismissCategoryRow())
+                onAction(AddSpendingActions.OnDismissCategoryDialog())
             }
         ) {
             SelectCategoryDialog { categoryIndex ->
                 onAction(
-                    AddSpendingActions.OnDismissCategoryRow(
+                    AddSpendingActions.OnDismissCategoryDialog(
                     category = SpendingType.entries[categoryIndex]
                 ))
+            }
+        }
+    }
+
+    if(state.showCardDialog) {
+        Dialog(
+            properties = DialogProperties(
+                usePlatformDefaultWidth = false
+            ),
+            onDismissRequest = {
+                onAction(AddSpendingActions.OnDismissCardDialog())
+            }
+        ) {
+            SelectCardDialog(
+                cardList = state.cardList
+            ) { index ->
+                onAction(
+                    AddSpendingActions.OnDismissCardDialog(
+                        cardIndex = index
+                    )
+                )
             }
         }
     }
@@ -246,6 +300,42 @@ private fun AddSpendingView(
             text = contentText,
             color = inputTextColor,
         )
+    }
+}
+
+@Composable
+private fun SpendingCardView(
+    cardItem: CardItem,
+    onRowClick: () -> Unit
+) {
+    Text(
+        text = stringResource(R.string.add_spending_screen_title_card),
+        fontSize = 14.sp,
+        fontWeight = FontWeight.SemiBold,
+        color = Color.Gray
+    )
+    Spacer(modifier = Modifier.height(8.dp))
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .border(
+                width = 1.dp,
+                color = outlineTextFieldBorder,
+                shape = RoundedCornerShape(8.dp)
+            )
+            .clickable(onClick = onRowClick),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(12.dp)
+                .size(24.dp)
+                .clip(RoundedCornerShape(4.dp))
+                .background(
+                    color = Color(cardItem.cardColor),
+                )
+        )
+        CardInfoText(cardItem = cardItem)
     }
 }
 

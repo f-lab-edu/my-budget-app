@@ -56,7 +56,7 @@ import kr.ksw.mybudget.presentation.add.common.components.ADD_INPUT_TYPE_CARD
 import kr.ksw.mybudget.presentation.add.common.components.AddInputForm
 import kr.ksw.mybudget.presentation.add.common.transformation.CardNumberTransformation
 import kr.ksw.mybudget.presentation.components.CardUi
-import kr.ksw.mybudget.presentation.core.common.Paddings
+import kr.ksw.mybudget.ui.Paddings
 import kr.ksw.mybudget.ui.theme.MyBudgetTheme
 import kr.ksw.mybudget.ui.theme.inputTextColor
 import kr.ksw.mybudget.ui.theme.outlineTextFieldBorder
@@ -126,7 +126,7 @@ fun AddCardScreen(
             .verticalScroll(scrollState)
     ) {
         Text(
-            text = "카드 등록",
+            text = stringResource(R.string.add_card_screen_title),
             fontSize = 22.sp,
             color = Color.Black,
             fontWeight = FontWeight.SemiBold
@@ -144,9 +144,9 @@ fun AddCardScreen(
         )
         Spacer(modifier = Modifier.height(16.dp))
         AddInputForm(
-            title = "카드 이름",
+            title = stringResource(R.string.add_card_screen_name_title),
             text = state.cardItem.cardName,
-            placeHolder = "카드 이름을 입력해 주세요.",
+            placeHolder = stringResource(R.string.add_card_screen_name_hint),
             onTextChange = {
                 onAction(AddCardActions.UpdateCardName(it))
             },
@@ -154,9 +154,9 @@ fun AddCardScreen(
         )
         Spacer(modifier = Modifier.height(16.dp))
         AddInputForm(
-            title = "카드 번호",
+            title = stringResource(R.string.add_card_screen_number_title),
             text = state.cardItem.cardNumber,
-            placeHolder = "카드 번호를 입력해 주세요. (16자)",
+            placeHolder = stringResource(R.string.add_card_screen_number_hint),
             onTextChange = {
                 onAction(AddCardActions.UpdateCardNumber(it.take(16)))
             },
@@ -164,17 +164,16 @@ fun AddCardScreen(
             visualTransformation = CardNumberTransformation(),
             type = ADD_INPUT_TYPE_CARD
         )
-
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "카드 종류",
+            text = stringResource(R.string.add_card_screen_type_title),
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold,
             color = Color.Gray
         )
         Spacer(modifier = Modifier.height(8.dp))
         CardTypeButton(
-            cardTypeText = "신용 카드",
+            cardTypeText = stringResource(R.string.add_card_button_credit),
             cardType = CARD_TYPE_CREDIT,
             selectedCardType = state.cardItem.cardType,
             iconImage = ImageVector.vectorResource(R.drawable.ic_credit_card_24_outlined),
@@ -184,7 +183,7 @@ fun AddCardScreen(
         }
         Spacer(modifier = Modifier.height(8.dp))
         CardTypeButton(
-            cardTypeText = "체크 카드",
+            cardTypeText = stringResource(R.string.add_card_button_debit),
             cardType = CARD_TYPE_DEBIT,
             selectedCardType = state.cardItem.cardType,
             iconImage = ImageVector.vectorResource(R.drawable.ic_finance_chip_24_outlined),

@@ -14,10 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AddCardViewModel @Inject constructor(
     private val addCardUseCase: AddCardUseCase
-): BaseViewModel<AddCardUIEffect>() {
-    private val _state = MutableStateFlow(AddCardState())
-    val state = _state.asStateFlow()
-
+): BaseViewModel<AddCardState, AddCardUIEffect>(AddCardState()) {
     private val cardItem: CardItem
         get() = state.value.cardItem
 
@@ -62,7 +59,7 @@ class AddCardViewModel @Inject constructor(
     private fun updateState(
         cardItem: CardItem
     ) {
-        _state.update {
+        updateState {
             it.copy(
                 cardItem = cardItem
             )
