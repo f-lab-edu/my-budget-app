@@ -85,6 +85,15 @@ fun CardListScreen(
     state: CardListState,
     onAction: (CardListActions) -> Unit
 ) {
+    val spendingList = state.spendingList.filter {
+        val cardNum = if(state.cardList.isEmpty()) {
+            ""
+        } else {
+            state.cardList[state.selectedCardIndex].cardNumber
+        }
+        it.cardNum == cardNum
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -129,7 +138,6 @@ fun CardListScreen(
                     )
                 }
             } else {
-                val spendingList = state.spendingList
                 LazyColumn(
                     modifier = Modifier
                         .padding(horizontal = Paddings.ScaffoldHorizontalPadding),
