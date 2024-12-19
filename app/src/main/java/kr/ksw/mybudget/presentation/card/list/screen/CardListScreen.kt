@@ -1,6 +1,5 @@
 package kr.ksw.mybudget.presentation.card.list.screen
 
-import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -49,8 +48,8 @@ import kr.ksw.mybudget.presentation.card.list.viewmodel.CardListUIEffect
 import kr.ksw.mybudget.presentation.card.list.viewmodel.CardListViewModel
 import kr.ksw.mybudget.presentation.components.CardUi
 import kr.ksw.mybudget.presentation.components.SpendingCard
-import kr.ksw.mybudget.ui.Paddings
 import kr.ksw.mybudget.presentation.core.keys.CARD_ITEM_KEY
+import kr.ksw.mybudget.ui.Paddings
 import kr.ksw.mybudget.ui.theme.MyBudgetTheme
 import kotlin.math.absoluteValue
 
@@ -86,18 +85,12 @@ fun CardListScreen(
     state: CardListState,
     onAction: (CardListActions) -> Unit
 ) {
-    val context = LocalContext.current
-    val spendingItems = state.spendingList.filter {
-        it.cardNum == state.cardList[state.selectedCardIndex].cardNumber
-    }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(top = Paddings.ScaffoldTopPadding)
     ) {
         CardListHeader(
-            context = context,
             onAction = onAction
         )
         Spacer(modifier = Modifier.height(20.dp))
@@ -126,7 +119,7 @@ fun CardListScreen(
                 fontSize = 18.sp
             )
             Spacer(modifier = Modifier.height(6.dp))
-            if(spendingItems.isEmpty()) {
+            if(state.spendingList.isEmpty()) {
                 Box(
                     modifier = Modifier.fillMaxSize()
                 ) {
@@ -136,6 +129,7 @@ fun CardListScreen(
                     )
                 }
             } else {
+                val spendingList = state.spendingList
                 LazyColumn(
                     modifier = Modifier
                         .padding(horizontal = Paddings.ScaffoldHorizontalPadding),
@@ -143,13 +137,13 @@ fun CardListScreen(
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     items(
-                        count = spendingItems.size,
+                        count = spendingList.size,
                         key = {
                             it
                         }
                     ) { index ->
                         SpendingCard(
-                            item = spendingItems[index]
+                            item = spendingList[index]
                         ) {
 
                         }
@@ -162,7 +156,6 @@ fun CardListScreen(
 
 @Composable
 private fun CardListHeader(
-    context: Context,
     onAction: (CardListActions) -> Unit
 ) {
     Row(
