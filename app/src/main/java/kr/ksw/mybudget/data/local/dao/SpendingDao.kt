@@ -34,4 +34,9 @@ interface SpendingDao {
         from: LocalDate,
         to: LocalDate
     ): Flow<List<SpendingEntity>>
+
+    @Query("SELECT * FROM spending_table WHERE cardNum = :cardNum")
+    fun getSpendingEntitiesByCardNum(
+        cardNum: String
+    ): Flow<List<SpendingEntity>>
 }

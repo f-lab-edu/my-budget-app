@@ -16,6 +16,10 @@ interface SpendingRepository {
         to: LocalDate
     ): Flow<List<SpendingEntity>>
 
+    fun getSpendingEntitiesByCardNum(
+        cardNum: String
+    ): Flow<List<SpendingEntity>>
+
     suspend fun getSpendingEntitiesByMajorCategory(
         majorCategory: Int
     ): List<SpendingEntity>

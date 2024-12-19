@@ -38,9 +38,24 @@ class SpendingRepositoryImpl @Inject constructor(
     }.catch { emit(emptyList()) }
         .flowOn(Dispatchers.IO)
 
+    override fun getSpendingEntitiesByCardNum(
+        cardNum: String
+    ): Flow<List<SpendingEntity>> = entitiesToFlow(
+        entities = spendingDao.getSpendingEntitiesByCardNum(cardNum)
+    )
+
     override suspend fun getSpendingEntitiesByMajorCategory(majorCategory: Int): List<SpendingEntity>
         = spendingDao.getSpendingEntitiesByMajorCategory(majorCategory = majorCategory)
 
     override suspend fun getSpendingEntitiesBySubCategory(subCategory: Int): List<SpendingEntity>
         = spendingDao.getSpendingEntitiesBySubCategory(subCategory = subCategory)
+
+    private fun <T> entitiesToFlow(
+        entities: Flow<List<T>>
+    ): Flow<List<T>> = flow {
+        entities.collect {
+            emit(it)
+        }
+    }.catch { emit(emptyList()) }
+        .flowOn(Dispatchers.IO)
 }
