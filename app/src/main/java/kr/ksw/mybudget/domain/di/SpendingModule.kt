@@ -6,6 +6,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kr.ksw.mybudget.domain.usecase.add.spending.AddSpendingUseCase
 import kr.ksw.mybudget.domain.usecase.add.spending.AddSpendingUseCaseImpl
+import kr.ksw.mybudget.domain.usecase.card.GetSpendingListByCardNumUseCase
+import kr.ksw.mybudget.domain.usecase.card.GetSpendingListByCardNumUseCaseImpl
 import kr.ksw.mybudget.domain.usecase.home.GetMonthlySpendingUseCase
 import kr.ksw.mybudget.domain.usecase.home.GetMonthlySpendingUseCaseImpl
 import kr.ksw.mybudget.domain.usecase.home.GetPreviousMonthSpendingUseCase
@@ -28,4 +30,9 @@ abstract class SpendingModule {
     abstract fun bindGetPreviousMonthSpendingUSeCase(
         getPreviousMonthSpendingUseCase: GetPreviousMonthSpendingUseCaseImpl
     ): GetPreviousMonthSpendingUseCase
+
+    @Binds
+    abstract fun bindGetSpendingListByCardNumUseCase(
+        getSpendingListByCardNumUseCase: GetSpendingListByCardNumUseCaseImpl
+    ): GetSpendingListByCardNumUseCase
 }
