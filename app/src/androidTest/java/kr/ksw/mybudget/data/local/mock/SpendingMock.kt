@@ -14,14 +14,16 @@ val spendingList = listOf(
         date = LocalDate.now(),
         majorCategory = MAJOR_CATEGORY_FOOD,
         subCategory = 12,
-        price = 6_000
+        price = 6_000,
+        cardNum = "4885111266651115"
     ),
     SpendingEntity(
         title = "할리스",
         date = LocalDate.now(),
         majorCategory = MAJOR_CATEGORY_FOOD,
         subCategory = 12,
-        price = 5_000
+        price = 5_000,
+        cardNum = "4885111266651115"
     ),
     SpendingEntity(
         title = "영화",
@@ -35,7 +37,8 @@ val spendingList = listOf(
         date = LocalDate.now(),
         majorCategory = MAJOR_CATEGORY_LIFE_STYLE,
         subCategory = 31,
-        price = 100_000
+        price = 100_000,
+        cardNum = "4885111266651115"
     ),
     SpendingEntity(
         title = "통신비",

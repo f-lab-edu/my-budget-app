@@ -183,4 +183,23 @@ class SpendingDaoTest {
         assert(result.isNotEmpty())
         assert(result.size == 1)
     }
+
+    @Test
+    fun `getSpendingEntitiesByCardNum is empty`() = runTest {
+        spendingList.forEach { spending ->
+            dao.upsertSpendingEntity(spending)
+        }
+        val result = dao.getSpendingEntitiesByCardNum("").first()
+        assert(result.isEmpty())
+    }
+
+    @Test
+    fun `getSpendingEntitiesByCardNum is not empty`() = runTest {
+        spendingList.forEach { spending ->
+            dao.upsertSpendingEntity(spending)
+        }
+        val result = dao.getSpendingEntitiesByCardNum("4885111266651115").first()
+        assert(result.isNotEmpty())
+        assert(result.size == 3)
+    }
 }
