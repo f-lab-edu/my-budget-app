@@ -66,7 +66,8 @@ fun HomeScreen(
     state: HomeState
 ) {
     val now = LocalDate.now().toDisplayString(DATE_FORMAT_YMD)
-    val name = "김석우"
+    // No User Data
+    val name = stringResource(R.string.main_home_user_name_default)
 
     val context = LocalContext.current
 
