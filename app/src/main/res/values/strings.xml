@@ -9,6 +9,7 @@
     <string name="display_currency_won">%s원</string>
 
     <string name="main_home_header_name_title">%s님 안녕하세요!</string>
+    <string name="main_home_user_name_default">처음 사용자</string>
 
     <string name="main_home_spending_card_title">이번 달 지출</string>
     <string name="main_home_spending_card_compare_title">전월대비</string>

@@ -53,7 +53,15 @@ class AddSpendingViewModel @Inject constructor(
                     ))
                 } else {
                     viewModelScope.launch {
-                        addSpendingUseCase(state.value.item)
+                        if(state.value.cardList.isNotEmpty() &&
+                            spendingItem.cardNum == null) {
+                            val newItem = spendingItem.copy(
+                                cardNum = state.value.cardList[state.value.selectedCardIndex].cardNumber
+                            )
+                            addSpendingUseCase(newItem)
+                        } else {
+                            addSpendingUseCase(spendingItem)
+                        }
                     }
                     postUIEffect(AddSpendingUIEffect.FinishAddScreen)
                 }
@@ -79,7 +87,7 @@ class AddSpendingViewModel @Inject constructor(
                             } else {
                                 index
                             }
-                        } ?: 0
+                        } ?: 0,
                     )
                 }
             }
