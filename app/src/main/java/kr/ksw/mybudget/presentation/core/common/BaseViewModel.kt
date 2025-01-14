@@ -22,6 +22,8 @@ open class BaseViewModel<STATE, EFFECT>(
     val state: StateFlow<STATE>
         get() = _state.asStateFlow()
 
+    // Reducer는 상태를 업데이트해서 돌려주는 개념
+    // MVI패턴을 제대로 구현한다면 ViewModel마다 Reducer를 따로 구현해 주어야한다. (STATE, EVENT) -> STATE 같은 모습
     protected fun updateState(reducer: (STATE) -> STATE) {
         _state.update {
             reducer(it)
